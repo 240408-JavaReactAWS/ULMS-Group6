@@ -1,5 +1,6 @@
 package com.revature.backend.controllers;
 
+import com.revature.backend.exceptions.NoSuchUserFoundException;
 import com.revature.backend.models.Grades;
 import com.revature.backend.services.GradesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,13 @@ public class GradesController {
 
 
     // GET MAPPING TO GET THE ASSIGNMETID AND USERID AND WE WILL RETURN THE GRADE ASSOCIATED
-//    @GetMapping("/{assignmentId}/{userId}")
-//    public ResponseEntity<Grades> getAssignmentGrades(@PathVariable("assignmentId") Integer assignmentId , @PathVariable("userId") Integer userId, ) {
-//        Grades assignmentGrades = gradesService.getAssignmentGrades(assignmentId);
-//        return ResponseEntity.ok(assignmentGrades);
-//    }
+    @GetMapping("/{assignmentId}/{userId}")
+    public ResponseEntity<Grades> getAssignmentGrades(@PathVariable("assignmentId") Integer assignmentId ,
+                                                      @PathVariable("userId") Integer userId)
+                                                        throws NoSuchUserFoundException {
+        Grades assignmentGrades = gradesService.getAssignmentGrades(assignmentId, userId);
+        return ResponseEntity.ok(assignmentGrades);
+    }
 
     @PostMapping("/{userId}")
     public ResponseEntity<Grades> assignGrade(@PathVariable("assignmentId") Integer assignmentId,
