@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/courses/{courseId}/assignments/{assignmentId}/grades")
+@RequestMapping("{courseId}/{assignmentId}/grades")
 public class GradesController {
     private final GradesService gradesService;
 
@@ -19,13 +19,13 @@ public class GradesController {
         this.gradesService = gradesService;
     }
 
-    @GetMapping("/students/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<List<Grades>> getStudentGrades(@PathVariable("userId") Integer userId) {
         List<Grades> studentGrades = gradesService.getStudentAllGrades(userId);
         return ResponseEntity.ok(studentGrades);
     }
 
-    @GetMapping("/assignments/{assignmentId}")
+    @GetMapping()
     public ResponseEntity<List<Grades>> getAssignmentGrades(@PathVariable("assignmentId") Integer assignmentId) {
         List<Grades> assignmentGrades = gradesService.getAssignmentAllGrades(assignmentId);
         return ResponseEntity.ok(assignmentGrades);
@@ -39,7 +39,7 @@ public class GradesController {
 //        return ResponseEntity.ok(assignmentGrades);
 //    }
 
-    @PostMapping("/assignments/{assignmentId}/students/{userId}")
+    @PostMapping("/{userId}")
     public ResponseEntity<Grades> assignGrade(@PathVariable("assignmentId") Integer assignmentId,
                                               @PathVariable("userId") Integer userId,
                                               @RequestParam("grade") Double grade) {
