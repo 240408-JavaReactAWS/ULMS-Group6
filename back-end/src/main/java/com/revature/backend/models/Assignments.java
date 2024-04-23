@@ -32,6 +32,11 @@ public class Assignments {
     public Assignments() {
     }
 
+    public Assignments(String assignmentName, Date deadline) {
+        this.assignmentName = assignmentName;
+        this.deadline = deadline;
+    }
+
     public Assignments(String assignmentName, Courses course, Date deadline) {
         this.assignmentName = assignmentName;
         this.course = course;
