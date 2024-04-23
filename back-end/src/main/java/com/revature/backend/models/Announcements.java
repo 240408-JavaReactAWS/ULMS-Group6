@@ -33,6 +33,11 @@ public class Announcements {
     public Announcements() {
     }
 
+    public Announcements(String message, Date date) {
+        this.message = message;
+        this.date = date;
+    }
+
     public Announcements(String message, Courses course, Date date) {
         this.message = message;
         this.course = course;
