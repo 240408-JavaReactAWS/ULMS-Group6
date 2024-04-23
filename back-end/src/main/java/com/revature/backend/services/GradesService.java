@@ -37,7 +37,7 @@ public class GradesService {
         return gradesDAO.findByAssignmentId(assignmentId);
     }
 
-    // Logic for Getting grade for specific student
+    // Logic for Getting grade for specific student/ assignment
     public Grades getAssignmentGrades(Integer assignmentId, Integer userId) throws NoSuchUserFoundException {
         // Implement logic to retrieve grades for a specific assignment
         Optional<Users> studentOptional = usersDAO.findById(userId);

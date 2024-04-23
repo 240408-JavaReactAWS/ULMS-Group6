@@ -33,7 +33,7 @@ public class GradesController {
     }
 
 
-    // GET MAPPING TO GET THE ASSIGNMETID AND USERID AND WE WILL RETURN THE GRADE ASSOCIATED
+    // Getting grade for specific student/ assignment
     @GetMapping("/{assignmentId}/{userId}")
     public ResponseEntity<Grades> getAssignmentGrades(@PathVariable("assignmentId") Integer assignmentId ,
                                                       @PathVariable("userId") Integer userId)
