@@ -19,8 +19,8 @@ public class Announcements {
     @JoinColumn(name = "CourseId")
     private Courses course;
 
-    @Column(name = "CourseID_FK")
-    private Integer CourseId;
+//    @Column(name = "CourseID_FK")
+//    private Integer CourseId;
 
     @Column(name = "Text")
     private String text;
@@ -28,4 +28,52 @@ public class Announcements {
     @Column(name = "Date")
     @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date;
+
+    public Announcements() {
+    }
+
+    public Announcements(Courses course, String text, Date date) {
+        this.course = course;
+        this.text = text;
+        this.date = date;
+    }
+
+    public Announcements(Integer announcementId, String text, Date date, Courses course) {
+        this.announcementId = announcementId;
+        this.text = text;
+        this.date = date;
+        this.course = course;
+    }
+
+    public Integer getAnnouncementId() {
+        return announcementId;
+    }
+
+    public void setAnnouncementId(Integer announcementId) {
+        this.announcementId = announcementId;
+    }
+
+    public Courses getCourse() {
+        return course;
+    }
+
+    public void setCourse(Courses course) {
+        this.course = course;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }
