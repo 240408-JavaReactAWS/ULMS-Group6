@@ -1,5 +1,6 @@
 package com.revature.backend.services;
 
+import com.revature.backend.exceptions.NoSuchUserFoundException;
 import com.revature.backend.models.Assignments;
 import com.revature.backend.models.Grades;
 import com.revature.backend.models.Users;
@@ -36,15 +37,17 @@ public class GradesService {
         return gradesDAO.findByAssignmentId(assignmentId);
     }
 
-    // Logic for getting one person grades
-//    public Grades getAssignmentGrades(Integer assignmentId, Integer userId) {
-//        // Implement logic to retrieve grades for a specific assignment
-//        Grades existingGrade = gradesDAO.findByAssignmentIdAndUserId(assignmentId, userId)
-//      if (existingGrade != null) {
-//        return gradesDAO.findByAssignmentId(assignmentId);
-//      }
-//      Else {}
-//    }
+    // Logic for Getting grade for specific student/ assignment
+    public Grades getAssignmentGrades(Integer assignmentId, Integer userId) throws NoSuchUserFoundException {
+        // Implement logic to retrieve grades for a specific assignment
+        Optional<Users> studentOptional = usersDAO.findById(userId);
+      if (studentOptional.isPresent()) {
+          Users student = studentOptional.get();
+          //Using method in GradesDAO to find grade by user and assignment
+          return gradesDAO.findByAssignmentIdAndUserId(assignmentId, userId);
+      } else
+          throw new NoSuchUserFoundException("No student found with ID: " + userId);
+    }
 
     @Transactional
     public Grades assignGrade(Integer assignmentId, Integer userId, Double grade) {
