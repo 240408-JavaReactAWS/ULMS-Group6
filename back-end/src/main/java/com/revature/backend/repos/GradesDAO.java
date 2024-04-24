@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface GradesDAO extends JpaRepository<Grades,Integer> {
-    List<Grades> findByUserId(Integer userId);
-    List<Grades> findByAssignmentId(Integer assignmentId);
-    Grades findByAssignmentIdAndUserId(Integer assignmentId,Integer userId);
+    List<Grades> findByAssignmentAssignmentsId(Integer assignmentId);
+    List<Grades> findByUserUserId(Integer userId);
+    Grades findByAssignmentAssignmentsIdAndUserUserId(Integer assignmentId, Integer userId);
 }

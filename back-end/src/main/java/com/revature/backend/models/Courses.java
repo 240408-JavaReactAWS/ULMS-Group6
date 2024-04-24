@@ -1,6 +1,7 @@
 package com.revature.backend.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -19,6 +20,7 @@ public class Courses {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
+    @JsonIgnore
     private Users teacher;
 
 
@@ -28,6 +30,7 @@ public class Courses {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
+    @JsonIgnore
     private Set<Users> students;
 
     /*
