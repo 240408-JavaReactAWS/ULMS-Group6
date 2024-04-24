@@ -14,13 +14,11 @@ import org.springframework.stereotype.Service;
 public class AnnouncementsService {
     private AnnouncementsDAO announcementsDAO;
     private CoursesDAO coursesDAO;
-    private UsersDAO usersDAO;
 
     @Autowired
-    public AnnouncementsService(AnnouncementsDAO announcementsDAO, CoursesDAO coursesDAO, UsersDAO usersDAO) {
+    public AnnouncementsService(AnnouncementsDAO announcementsDAO, CoursesDAO coursesDAO) {
         this.announcementsDAO = announcementsDAO;
         this.coursesDAO = coursesDAO;
-        this.usersDAO = usersDAO;
     }
 
     public Announcements createAnnouncement(Integer courseId, Announcements announcement) {
