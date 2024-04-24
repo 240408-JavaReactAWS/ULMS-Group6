@@ -2,9 +2,11 @@ package com.revature.backend.services;
 
 
 import com.revature.backend.exceptions.NoSuchUserFoundException;
+import com.revature.backend.models.Announcements;
 import com.revature.backend.models.Assignments;
 import com.revature.backend.models.Courses;
 import com.revature.backend.models.Users;
+import com.revature.backend.repos.AnnouncementsDAO;
 import com.revature.backend.repos.AssignmentsDAO;
 import com.revature.backend.repos.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,51 +16,36 @@ import java.util.*;
 
 @Service
 public class UsersService {
+
+    private AnnouncementsDAO announcementsDAO;
     private UsersDAO usersDAO;
     private AssignmentsDAO assignmentsDAO;
 
     @Autowired
-    public UsersService(UsersDAO usersDAO, AssignmentsDAO assignmentsDAO) {
+    public UsersService(UsersDAO usersDAO, AssignmentsDAO assignmentsDAO, AnnouncementsDAO announcementsDAO) {
         this.usersDAO = usersDAO;
         this.assignmentsDAO  = assignmentsDAO;
+        this.announcementsDAO = announcementsDAO;
     }
 
     //As a Student, I can view all my courses.
-    public Set<Courses> getEnrolledCourses(Integer userId) throws NoSuchUserFoundException {
-        Optional<Users> usersOptional = usersDAO.findById(userId);
+    public Set<Courses> getEnrolledCourses(Integer studentId) throws NoSuchUserFoundException {
+        Optional<Users> usersOptional = usersDAO.findById(studentId);
         if(usersOptional.isPresent()){
             Users user = usersOptional.get();
             return user.getEnrolledCourses();
         }else{
-            throw new NoSuchUserFoundException("No user found with ID: " + userId);
+            throw new NoSuchUserFoundException("No user found with ID: " + studentId);
         }
     }
 
     //As a Student, I can check my assignments and due dates.
-    public List<Assignments> getAssignmentsForUserAndCourse(Integer userId, Integer courseId) {
+    public List<Assignments> getAssignmentsByCourseAndStudent(Integer studentId, Integer courseId) {
+        return assignmentsDAO.findByCourse_Students_UserIdAndCourse_CourseId(studentId, courseId);
+    }
 
-        Users user = usersDAO.findByUserId(userId);
-        if (user != null) {
-            // Get the user's enrolled courses
-            Set<Courses> enrolledCourses = user.getEnrolledCourses();
-            // Check if the user is enrolled in the specified course
-            boolean isEnrolled = false;
-            for (Courses course : enrolledCourses) {
-                if (course.getCourseId().equals(courseId)) {
-                    isEnrolled = true;
-                    break;
-                }
-            }
-            // If user is not enrolled in the specified course, return empty list
-            if (!isEnrolled) {
-                return Collections.emptyList();
-            }
-            // Fetch assignments for the specified course
-            List<Assignments> courseAssignments = assignmentsDAO.findByCourseId(courseId);
-            return courseAssignments;
-        } else {
-            // Handle case where user is not found
-            return Collections.emptyList();
-        }
+    //As a Student, I can check course Announcements for different courses.
+    public List<Announcements> getAllAnnouncementsByCourseId(Integer studentId, Integer courseId){
+        return announcementsDAO.findByCourse_Students_UserIdAndCourse_CourseId(studentId, courseId);
     }
 }

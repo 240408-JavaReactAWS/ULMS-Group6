@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface AssignmentsDAO extends JpaRepository<Assignments, Integer> {
     //As a Student, I can check my assignments and due dates.
-    List<Assignments> findByCourseId(Integer courseId);
+    List<Assignments> findByCourse_Students_UserIdAndCourse_CourseId(Integer studentId, Integer courseId);
 }
