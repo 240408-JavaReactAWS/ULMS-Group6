@@ -1,14 +1,18 @@
 package com.revature.backend.controllers;
-
 import com.revature.backend.exceptions.ForbiddenException;
 import com.revature.backend.exceptions.NoSuchUserException;
 import com.revature.backend.exceptions.UsernameAlreadyTakenException;
 import com.revature.backend.models.Users;
+import com.revature.backend.exceptions.NoSuchUserFoundException;
+import com.revature.backend.models.Announcements;
+import com.revature.backend.models.Assignments;
+import com.revature.backend.models.Courses;
 import com.revature.backend.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +56,6 @@ public class UsersController {
     }
 
     // delete user by id
-
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<Users> deleteUserHandler(@PathVariable Integer id) throws NoSuchUserException, ForbiddenException {
         try{
@@ -63,5 +66,54 @@ public class UsersController {
         } catch (ForbiddenException e){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Users user) {
+        if(userService.login(user)) {
+            return ResponseEntity.ok().body("Login Success!");
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
+  
+    //As a Student, I can view all my courses.
+    @GetMapping("/{studentId}/courses")
+    public ResponseEntity<?> getEnrolledCourses(@PathVariable Integer studentId) {
+        try {
+            Set<Courses> enrolledCourses = userService.getEnrolledCourses(studentId);
+            Set<Map<String, Object>> response = new HashSet<>();
+
+            for (Courses course : enrolledCourses) {
+                Map<String, Object> courseDetails = new HashMap<>();
+                courseDetails.put("courseId", course.getCourseId());
+                courseDetails.put("courseName", course.getCourseName());
+                courseDetails.put("teacherName", course.getTeacher().getFirstName() + " " + course.getTeacher().getLastName());
+                response.add(courseDetails);
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (NoSuchUserFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No user found with ID: " + studentId);
+        }
+    }
+
+    //As a Student, I can check my assignments and due dates.
+    @GetMapping("/{studentId}/courses/{courseId}/assignments")
+    public List<Assignments> getAssignmentsForUserAndCourse(@PathVariable Integer studentId, @PathVariable Integer courseId) {
+        // Call the service method to fetch assignments for the user and course
+        return userService.getAssignmentsByCourseAndStudent(studentId, courseId);
+    }
+
+    //As a Student, I can check course Announcements for different courses.
+    @GetMapping("/{studentId}/courses/{courseId}/announcements")
+    public ResponseEntity<List<Announcements>> getAnnouncementsForStudentAndCourse(
+            @PathVariable("studentId") Integer studentId,
+            @PathVariable("courseId") Integer courseId) {
+
+        List<Announcements> announcements = userService.getAllAnnouncementsByCourseId(studentId, courseId);
+        if (announcements.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(announcements, HttpStatus.OK);
     }
 }
