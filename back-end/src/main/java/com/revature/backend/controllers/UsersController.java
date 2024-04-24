@@ -14,8 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("users")
@@ -59,17 +58,18 @@ public class UsersController {
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<Users> deleteUserHandler(@PathVariable Integer id) throws NoSuchUserException, ForbiddenException {
         try{
-            Optional<Users> deletedUser = usersService.deleteUser(id);
-            return new ResponseEntity<>(deletedUser.get(),HttpStatus.OK);
+            usersService.deleteUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (NoSuchUserException e){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (ForbiddenException e){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
     
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Users user) {
-        if(userService.login(user)) {
+        if(usersService.login(user)) {
             return ResponseEntity.ok().body("Login Success!");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
@@ -79,7 +79,7 @@ public class UsersController {
     @GetMapping("/{studentId}/courses")
     public ResponseEntity<?> getEnrolledCourses(@PathVariable Integer studentId) {
         try {
-            Set<Courses> enrolledCourses = userService.getEnrolledCourses(studentId);
+            Set<Courses> enrolledCourses = usersService.getEnrolledCourses(studentId);
             Set<Map<String, Object>> response = new HashSet<>();
 
             for (Courses course : enrolledCourses) {
@@ -101,7 +101,7 @@ public class UsersController {
     @GetMapping("/{studentId}/courses/{courseId}/assignments")
     public List<Assignments> getAssignmentsForUserAndCourse(@PathVariable Integer studentId, @PathVariable Integer courseId) {
         // Call the service method to fetch assignments for the user and course
-        return userService.getAssignmentsByCourseAndStudent(studentId, courseId);
+        return usersService.getAssignmentsByCourseAndStudent(studentId, courseId);
     }
 
     //As a Student, I can check course Announcements for different courses.
@@ -110,7 +110,7 @@ public class UsersController {
             @PathVariable("studentId") Integer studentId,
             @PathVariable("courseId") Integer courseId) {
 
-        List<Announcements> announcements = userService.getAllAnnouncementsByCourseId(studentId, courseId);
+        List<Announcements> announcements = usersService.getAllAnnouncementsByCourseId(studentId, courseId);
         if (announcements.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

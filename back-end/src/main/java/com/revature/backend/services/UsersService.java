@@ -62,8 +62,8 @@ public class UsersService {
     }
 
     public boolean login (Users user) {
-        Users existingUser = usersDAO.findByUsername(user.getUsername());
-        return existingUser != null && existingUser.getPassword().equals(user.getPassword());
+        Optional<Users> existingUser = usersDAO.findByUsername(user.getUsername());
+        return existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword());
     }
 
     public List<Users> getAllUsers() {
@@ -87,7 +87,7 @@ public class UsersService {
         return usersDAO.save(user);
     }
 
-    public Optional<Users> deleteUser(int id) throws NoSuchUserException, ForbiddenException {
+    public void deleteUser(int id) throws NoSuchUserException, ForbiddenException {
         Optional<Users> userToDelete = usersDAO.findById(id);
 
         if(userToDelete.isPresent()){
@@ -97,10 +97,8 @@ public class UsersService {
                 throw new ForbiddenException("Admin User with userid:"+ id + " cannot be deleted from database");
             }
             usersDAO.deleteById(id);
-        } else{
-            throw new NoSuchUserException("No user with id:"+ id + "found");
+        } else {
+            throw new NoSuchUserException("No user with id:" + id + "found");
         }
-
-        return userToDelete;
     }
 }
