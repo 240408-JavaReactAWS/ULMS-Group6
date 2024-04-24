@@ -14,7 +14,7 @@ public class Grades {
     private Double grade;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "assignment_id")
     private Assignments assignment;
 
