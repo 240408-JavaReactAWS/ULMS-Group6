@@ -10,11 +10,9 @@ import com.revature.backend.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/users")
@@ -41,7 +39,17 @@ public class UsersController {
     public ResponseEntity<?> getEnrolledCourses(@PathVariable Integer studentId) {
         try {
             Set<Courses> enrolledCourses = userService.getEnrolledCourses(studentId);
-            return ResponseEntity.ok(enrolledCourses);
+            Set<Map<String, Object>> response = new HashSet<>();
+
+            for (Courses course : enrolledCourses) {
+                Map<String, Object> courseDetails = new HashMap<>();
+                courseDetails.put("courseId", course.getCourseId());
+                courseDetails.put("courseName", course.getCourseName());
+                courseDetails.put("teacherName", course.getTeacher().getFirstName() + " " + course.getTeacher().getLastName());
+                response.add(courseDetails);
+            }
+
+            return ResponseEntity.ok(response);
         } catch (NoSuchUserFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No user found with ID: " + studentId);
