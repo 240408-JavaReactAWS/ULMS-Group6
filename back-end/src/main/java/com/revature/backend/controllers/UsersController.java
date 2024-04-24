@@ -24,7 +24,19 @@ public class UsersController {
     public UsersController(UsersService userService){
         this.userService = userService;
     }
+<<<<<<< Updated upstream
 
+=======
+    
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Users user) {
+        if(userService.login(user)) {
+            return ResponseEntity.ok().body("Login Success!");
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
+  
+>>>>>>> Stashed changes
     //As a Student, I can view all my courses.
     @GetMapping("/{studentId}/courses")
     public ResponseEntity<?> getEnrolledCourses(@PathVariable Integer studentId) {
