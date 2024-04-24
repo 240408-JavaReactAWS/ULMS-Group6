@@ -35,7 +35,7 @@ public class UsersController {
     }
   
     //As a Student, I can view all my courses.
-    @GetMapping("users/{studentId}/courses")
+    @GetMapping("/{studentId}/courses")
     public ResponseEntity<?> getEnrolledCourses(@PathVariable Integer studentId) {
         try {
             Set<Courses> enrolledCourses = userService.getEnrolledCourses(studentId);
