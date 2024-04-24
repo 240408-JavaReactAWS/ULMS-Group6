@@ -24,10 +24,10 @@ function Login(){
 
     let login = async() => {
         let res = await axios.post('http://localhost:8080/users/login', {username, password})
-            .then((response) => {
+            .then((response:any) => {
                 localStorage.setItem("username", response.data.username)
                 return response.data;})
-                .catch( (error) => {
+                .catch( (error:any) => {
                     localStorage.removeItem("username")
                     console.error(error)
                 }
