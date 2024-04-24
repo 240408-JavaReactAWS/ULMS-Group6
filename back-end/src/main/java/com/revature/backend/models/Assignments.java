@@ -1,6 +1,7 @@
 package com.revature.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -19,6 +20,7 @@ public class Assignments {
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Courses course;
 
     @Column(name = "Deadline")

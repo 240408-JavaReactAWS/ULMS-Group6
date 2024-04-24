@@ -1,5 +1,6 @@
 package com.revature.backend.controllers;
 
+
 import com.revature.backend.models.Users;
 import com.revature.backend.exceptions.NoSuchUserFoundException;
 import com.revature.backend.models.Announcements;
@@ -16,8 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-//@RequestMapping("users")
-@CrossOrigin(origins = {"http://localhost:3000"})
+@RequestMapping("/users")
+//@CrossOrigin(origins = {"http://localhost:3000/users"})
 public class UsersController {
 
     private UsersService userService;
@@ -48,14 +49,16 @@ public class UsersController {
     }
 
     //As a Student, I can check my assignments and due dates.
-    @GetMapping("users/{studentId}/courses/{courseId}/assignments")
+
+    @GetMapping("/{studentId}/courses/{courseId}/assignments")
     public List<Assignments> getAssignmentsForUserAndCourse(@PathVariable Integer studentId, @PathVariable Integer courseId) {
         // Call the service method to fetch assignments for the user and course
         return userService.getAssignmentsByCourseAndStudent(studentId, courseId);
     }
 
     //As a Student, I can check course Announcements for different courses.
-    @GetMapping("users/{studentId}/courses/{courseId}/announcements")
+
+    @GetMapping("/{studentId}/courses/{courseId}/announcements")
     public ResponseEntity<List<Announcements>> getAnnouncementsForStudentAndCourse(
             @PathVariable("studentId") Integer studentId,
             @PathVariable("courseId") Integer courseId) {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("{courseId}/{assignmentId}/grades")
+@RequestMapping("{courseId}/grades")
 public class GradesController {
     private final GradesService gradesService;
 
@@ -42,10 +42,10 @@ public class GradesController {
         return ResponseEntity.ok(assignmentGrades);
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping("/{assignmentId}/{userId}")
     public ResponseEntity<Grades> assignGrade(@PathVariable("assignmentId") Integer assignmentId,
                                               @PathVariable("userId") Integer userId,
-                                              @RequestParam("grade") Double grade) {
+                                              @RequestParam Double grade) {
         Grades assignedGrade = gradesService.assignGrade(assignmentId, userId, grade);
         if (assignedGrade != null) {
             return ResponseEntity.ok(assignedGrade);

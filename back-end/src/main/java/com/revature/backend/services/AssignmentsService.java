@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -53,6 +54,11 @@ public class AssignmentsService {
     }
 
     public void deleteAssignment(Integer assignmentId) {
+        List<Grades> gradesToDelete = gradesDAO.findByAssignmentAssignmentsId(assignmentId);
+        // Delete each grade
+        for (Grades grade : gradesToDelete) {
+            gradesDAO.delete(grade);
+        }
         assignmentsDAO.deleteById(assignmentId);
     }
 }
