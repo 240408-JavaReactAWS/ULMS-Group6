@@ -30,7 +30,7 @@ public class UsersController {
     
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Users user) {
-        if(UsersService.login(user)) {
+        if(userService.login(user)) {
             return ResponseEntity.ok().body("Login Success!");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");

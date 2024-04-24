@@ -51,6 +51,7 @@ public class UsersService {
     }
 
     public boolean login (Users user) {
-        return usersDAO.findUser(user.getUsername(), user.getPassword());
+        Users existingUser = usersDAO.findByUsername(user.getUsername());
+        return existingUser != null && existingUser.getPassword().equals(user.getPassword());
     }
 }
