@@ -11,6 +11,7 @@ import com.revature.backend.repos.AssignmentsDAO;
 import com.revature.backend.repos.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.revature.backend.models.Users;
 
 import java.util.*;
 
@@ -47,5 +48,9 @@ public class UsersService {
     //As a Student, I can check course Announcements for different courses.
     public List<Announcements> getAllAnnouncementsByCourseId(Integer studentId, Integer courseId){
         return announcementsDAO.findByCourse_Students_UserIdAndCourse_CourseId(studentId, courseId);
+    }
+
+    public boolean login (Users user) {
+        return usersDAO.findUser(user.getUsername(), user.getPassword());
     }
 }
