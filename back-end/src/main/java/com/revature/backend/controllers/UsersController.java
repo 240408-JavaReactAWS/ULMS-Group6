@@ -1,5 +1,8 @@
 package com.revature.backend.controllers;
-
+import com.revature.backend.exceptions.ForbiddenException;
+import com.revature.backend.exceptions.NoSuchUserException;
+import com.revature.backend.exceptions.UsernameAlreadyTakenException;
+import com.revature.backend.models.Users;
 import com.revature.backend.exceptions.NoSuchUserFoundException;
 import com.revature.backend.models.Announcements;
 import com.revature.backend.models.Assignments;
@@ -10,39 +13,84 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 @RestController
-@RequestMapping("/users")
-//@CrossOrigin(origins = {"http://localhost:3000/users"})
+@RequestMapping("users")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class UsersController {
 
-    private UsersService userService;
+    private final UsersService usersService;
 
     @Autowired
-    public UsersController(UsersService userService){
-        this.userService = userService;
+    public UsersController(UsersService us){
+        this.usersService = us;
     }
-<<<<<<< Updated upstream
+  
+    @GetMapping
+    public ResponseEntity<List<Users>> getAllUsersHandler(){
+        List<Users> users = usersService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
-=======
+    @GetMapping("/{id}")
+    public ResponseEntity<Users> getUserByIdHandler(@PathVariable Integer id){
+        try{
+            Optional<Users> returnedUser = usersService.getUserById(id);
+            return new ResponseEntity<>(returnedUser.get(), HttpStatus.OK);
+        }catch (NoSuchUserException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Users> registerUserHandler(@RequestBody Users user){
+        try{
+            Users savedUser = usersService.createUser(user);
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        }catch (UsernameAlreadyTakenException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // delete user by id
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<Users> deleteUserHandler(@PathVariable Integer id) throws NoSuchUserException, ForbiddenException {
+        try{
+            usersService.deleteUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchUserException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (ForbiddenException e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
     
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Users user) {
-        if(userService.login(user)) {
+        if(usersService.login(user)) {
             return ResponseEntity.ok().body("Login Success!");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
-  
->>>>>>> Stashed changes
+ 
     //As a Student, I can view all my courses.
     @GetMapping("/{studentId}/courses")
     public ResponseEntity<?> getEnrolledCourses(@PathVariable Integer studentId) {
         try {
-            Set<Courses> enrolledCourses = userService.getEnrolledCourses(studentId);
-            return ResponseEntity.ok(enrolledCourses);
+            Set<Courses> enrolledCourses = usersService.getEnrolledCourses(studentId);
+            Set<Map<String, Object>> response = new HashSet<>();
+
+            for (Courses course : enrolledCourses) {
+                Map<String, Object> courseDetails = new HashMap<>();
+                courseDetails.put("courseId", course.getCourseId());
+                courseDetails.put("courseName", course.getCourseName());
+                courseDetails.put("teacherName", course.getTeacher().getFirstName() + " " + course.getTeacher().getLastName());
+                response.add(courseDetails);
+            }
+
+            return ResponseEntity.ok(response);
         } catch (NoSuchUserFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No user found with ID: " + studentId);
@@ -53,7 +101,7 @@ public class UsersController {
     @GetMapping("/{studentId}/courses/{courseId}/assignments")
     public List<Assignments> getAssignmentsForUserAndCourse(@PathVariable Integer studentId, @PathVariable Integer courseId) {
         // Call the service method to fetch assignments for the user and course
-        return userService.getAssignmentsByCourseAndStudent(studentId, courseId);
+        return usersService.getAssignmentsByCourseAndStudent(studentId, courseId);
     }
 
     //As a Student, I can check course Announcements for different courses.
@@ -62,7 +110,7 @@ public class UsersController {
             @PathVariable("studentId") Integer studentId,
             @PathVariable("courseId") Integer courseId) {
 
-        List<Announcements> announcements = userService.getAllAnnouncementsByCourseId(studentId, courseId);
+        List<Announcements> announcements = usersService.getAllAnnouncementsByCourseId(studentId, courseId);
         if (announcements.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

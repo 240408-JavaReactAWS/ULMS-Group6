@@ -15,14 +15,13 @@ public class Courses {
     private Integer courseId;
 
 
-    @Column(name = "CourseName")
+    @Column(name = "CourseName", unique = true)
     private String courseName;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     @JsonIgnore
     private Users teacher;
-
 
     @ManyToMany
     @JoinTable(
@@ -33,16 +32,27 @@ public class Courses {
     @JsonIgnore
     private Set<Users> students;
 
+    // course capacity is the maximum number of students that can be enrolled in a course
+    @Column(name = "CourseCapacity")
+    private Integer courseCapacity;
+
+
     /*
     Constructors
      */
     public Courses() {
     }
 
-    public Courses(String courseName, Users teacher, Set<Users> students) {
+    public Courses(String courseName, Integer courseCapacity) {
+        this.courseName = courseName;
+        this.courseCapacity = courseCapacity;
+    }
+
+    public Courses(String courseName, Integer courseCapacity, Users teacher, Set<Users> students) {
         this.courseName = courseName;
         this.teacher = teacher;
         this.students = students;
+        this.courseCapacity = courseCapacity;
     }
 
     /*
@@ -64,4 +74,8 @@ public class Courses {
     public Set<Users> getStudents() { return students; }
 
     public void setStudents(Set<Users> students) { this.students = students;}
+
+    public Integer getCourseCapacity() { return courseCapacity; }
+
+    public void setCourseCapacity(Integer courseCapacity) { this.courseCapacity = courseCapacity; }
 }

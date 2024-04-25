@@ -102,4 +102,18 @@ public class Users {
     public List<Courses> getTaughtCourses() { return taughtCourses; }
 
     public void setTaughtCourses(List<Courses> taughtCourses) { this.taughtCourses = taughtCourses; }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", enrolledCourses=" + enrolledCourses +
+                ", taughtCourses=" + taughtCourses +
+                '}';
+    }
 }

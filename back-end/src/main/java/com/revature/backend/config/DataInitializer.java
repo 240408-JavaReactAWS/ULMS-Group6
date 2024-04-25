@@ -14,7 +14,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(usersDAO.findByUsername("admin")==null){
+        if(usersDAO.findByUsername("admin").isEmpty()){
             Users adminUser = new Users("admin","admin","admin","password", Roles.ADMIN);
             usersDAO.save(adminUser);
         }
