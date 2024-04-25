@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/courses/{courseId}/announcements")
 public class AnnouncementsController {
@@ -15,6 +17,12 @@ public class AnnouncementsController {
     @Autowired
     public AnnouncementsController(AnnouncementsService announcementsService) {
         this.announcementsService = announcementsService;
+    }
+
+    @GetMapping
+    public ResponseEntity<Iterable<Announcements>> getAnnouncements(@PathVariable("courseId") Integer courseId) {
+        List<Announcements> announcements = announcementsService.getAllAnnouncementsByCourseId(courseId);
+        return ResponseEntity.ok(announcements);
     }
 
     @PostMapping

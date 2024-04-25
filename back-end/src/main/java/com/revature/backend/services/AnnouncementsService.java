@@ -10,6 +10,8 @@ import com.revature.backend.repos.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AnnouncementsService {
     private AnnouncementsDAO announcementsDAO;
@@ -34,5 +36,9 @@ public class AnnouncementsService {
 
     public void deleteAnnouncement(Integer announcementId) {
         announcementsDAO.deleteById(announcementId);
+    }
+
+    public List<Announcements> getAllAnnouncementsByCourseId(Integer courseId){
+        return announcementsDAO.findByCourse_CourseId(courseId);
     }
 }
