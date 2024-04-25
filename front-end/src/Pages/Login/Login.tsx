@@ -47,7 +47,7 @@ function Login(){
                 <button type="submit">Login</button>
             </form>
         </main>
-    )
+    );
 }
 
 export default Login;
