@@ -1,9 +1,6 @@
 package com.revature.backend.controllers;
 
-import com.revature.backend.exceptions.CourseAlreadyExistException;
-import com.revature.backend.exceptions.InvalidRoleException;
-import com.revature.backend.exceptions.NoSuchCourseException;
-import com.revature.backend.exceptions.NoSuchUserException;
+import com.revature.backend.exceptions.*;
 import com.revature.backend.models.Courses;
 import com.revature.backend.services.CoursesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +24,12 @@ public class CoursesController {
 
     @PostMapping("createCourse")
     public ResponseEntity<Courses> createCourseHandler(@RequestBody Courses course){
-        Courses newCourse;
         try{
-            newCourse = coursesService.createCourse(course);
+            Courses newCourse = coursesService.createCourse(course);
+            return new ResponseEntity<>(newCourse,HttpStatus.CREATED);
         }catch(CourseAlreadyExistException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(newCourse,HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -71,7 +67,7 @@ public class CoursesController {
             Optional<Courses> assignedCourse = coursesService.assignTeacherToCourse(courseId, teacherId);
             return new ResponseEntity<>(assignedCourse.get(), HttpStatus.OK);
 
-        }catch (NoSuchCourseException | NoSuchUserException | InvalidRoleException e){
+        }catch (NoSuchCourseException | NoSuchUserException | InvalidRoleException | TeacherAlreadyPresentException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -79,14 +75,11 @@ public class CoursesController {
     //assign student to course
     @PutMapping("/assignStudent/{courseId}/{studentId}")
     public ResponseEntity<Courses> assignStudentToCourseHandler(@PathVariable int courseId, @PathVariable int studentId){
-
         try{
             Optional<Courses> assignedCourse = coursesService.assignStudentToCourse(courseId, studentId);
             return new ResponseEntity<>(assignedCourse.get(), HttpStatus.OK);
-        }catch (NoSuchCourseException | NoSuchUserException e){
+        }catch (NoSuchCourseException | NoSuchUserException | InvalidRoleException | CourseFullException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (InvalidRoleException e) {
-            throw new RuntimeException(e);
         }
 
     }

@@ -1,10 +1,7 @@
 package com.revature.backend.services;
 
 
-import com.revature.backend.exceptions.CourseAlreadyExistException;
-import com.revature.backend.exceptions.InvalidRoleException;
-import com.revature.backend.exceptions.NoSuchCourseException;
-import com.revature.backend.exceptions.NoSuchUserException;
+import com.revature.backend.exceptions.*;
 import com.revature.backend.models.Courses;
 import com.revature.backend.models.Roles;
 import com.revature.backend.models.Users;
@@ -42,7 +39,11 @@ public class CoursesService {
     }
 
     public Optional<Courses> getCourseById(int id) throws NoSuchCourseException {
-        return coursesDAO.findById(id);
+        Optional<Courses> possibleCourser =  coursesDAO.findById(id);
+        if(possibleCourser.isEmpty()){
+            throw new NoSuchCourseException("No course with id:"+ id + "found");
+        }
+        return possibleCourser;
     }
 
     public Optional<Courses> deleteCourse(int id) throws NoSuchCourseException {
@@ -55,24 +56,36 @@ public class CoursesService {
         return deletedCourse;
     }
 
-    public Optional<Courses> assignTeacherToCourse(Integer courseId, Integer teacherId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException {
+    public Optional<Courses> assignTeacherToCourse(Integer courseId, Integer teacherId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException, TeacherAlreadyPresentException {
         Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
         Users teacher = usersDAO.findById(teacherId).orElseThrow(() -> new NoSuchUserException("No user with id:"+ teacherId + "found"));
 
+        // check if the user is a teacher
         if(!teacher.getRole().equals(Roles.TEACHER)) {
             throw new InvalidRoleException("User with id:"+ teacherId + " is not a teacher");
+        }
+
+        // check if the course already has a teacher
+        if(course.getTeacher() != null){
+            throw new TeacherAlreadyPresentException("Course with id:"+ courseId + " already has a teacher");
         }
 
         course.setTeacher(teacher);
         return Optional.of(coursesDAO.save(course));
     }
 
-    public Optional<Courses> assignStudentToCourse(Integer courseId, Integer studentId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException {
+    public Optional<Courses> assignStudentToCourse(Integer courseId, Integer studentId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException, CourseFullException {
         Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
         Users student = usersDAO.findById(studentId).orElseThrow(() -> new NoSuchUserException("No user with id:"+ studentId + "found"));
 
+        // check if the user is a student
         if(!student.getRole().equals(Roles.STUDENT)) {
             throw new InvalidRoleException("User with id:"+ studentId + " is not a student");
+        }
+
+        // check if the course is full
+        if(course.getStudents().size() >= course.getCourseCapacity()){
+            throw new CourseFullException("Course with id:"+ courseId + " is full");
         }
 
         course.getStudents().add(student);
