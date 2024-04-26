@@ -1,4 +1,5 @@
 package com.revature.backend.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -30,9 +31,11 @@ public class Users {
     private Roles role;
 
     @ManyToMany(mappedBy = "students")
+    @JsonIgnore
     private Set<Courses> enrolledCourses;
 
     @OneToMany(mappedBy = "teacher")
+    @JsonIgnore
     private List<Courses> taughtCourses;
 
     /*
