@@ -21,7 +21,6 @@ function App() {
     <Nav></Nav>
       <Routes>
         <Route path="/" element={<Login/>} />
-        <Route path="/assignments" element={<Assignments/>} /> 
         <Route path="/assignmentsTeacher" element={<AssignmentTeacher />}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard />} />

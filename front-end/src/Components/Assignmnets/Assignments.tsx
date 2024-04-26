@@ -17,10 +17,10 @@ function Assignments({userId, courseId}: AssignmentsProps) {
     const [assignments, setAssignments] = useState<Assignment[]>([]);
 
     useEffect(() => {
-    axios.get('http://localhost:8080/users/2/courses/1/assignments').then(response => {
+    // axios.get('http://localhost:8080/users/2/courses/1/assignments').then(response => {
             // console.log(response.data);
-        // axios.get(`http://localhost:8080/users/${userId}/courses/${courseId}/assignments`).then(response => {
-        //     console.log(response.data);
+        axios.get(`http://localhost:8080/users/${userId}/courses/${courseId}/assignments`).then(response => {
+            console.log(response.data);
             setAssignments(response.data);
         }).catch(error => {
             console.log('Errors retriving Assignments', error);
