@@ -9,23 +9,28 @@ import TeacherGrades from './Components/TeacherGrades/TeacherGrades';
 import UserList from './Pages/UserList/UserList';
 import CourseList from './Pages/CourseList/CourseList';
 import CourseManage from './Pages/CourseManage/CourseManage';
+import Assignments from './Components/Assignmnets/Assignments';
+import Announcements from './Components/Announcements/Announcements';
+import NewAnnouncementForm from './Components/Announcements/NewAnnouncementForm';
+import Dashboard from './Pages/Dashboard/Dashboard';
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/GradesStudent" element={<GradesContainer />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/assignments" element={<Assignments userId={13} courseId={5}/>} /> 
+        <Route path="/courses/:courseId/announcements" element={<Announcements/>} />
+        <Route path="/courses/:courseId/announcements/new-announcement" element={<NewAnnouncementForm/>} />
+        <Route path="/GradesStudent" element={<GradesContainer />} />
           <Route path="/GradesTeacher" element={<TeacherGrades />} />
           <Route path="/UserList" element={<UserList />} />
           <Route path="/CourseList" element={<CourseList />} />
           <Route path="/manage-course/:courseId" element={<CourseManage />} />
-        </Routes>
-      </BrowserRouter>
-      </>
-      
-  
+      </Routes>
+    </BrowserRouter>
   );
 }
 
