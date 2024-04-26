@@ -23,6 +23,7 @@ public class Assignments {
     @JsonIgnore
     private Courses course;
 
+    //Added LocalDate
     @Column(name = "Deadline")
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate deadline;
