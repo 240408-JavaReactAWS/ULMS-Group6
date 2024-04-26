@@ -3,7 +3,7 @@ package com.revature.backend.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,9 +23,10 @@ public class Assignments {
     @JsonIgnore
     private Courses course;
 
+    //Added LocalDate
     @Column(name = "Deadline")
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date deadline;
+    private LocalDate deadline;
 
     /*
     Constructors
@@ -34,12 +35,12 @@ public class Assignments {
     public Assignments() {
     }
 
-    public Assignments(String assignmentName, Date deadline) {
+    public Assignments(String assignmentName, LocalDate deadline) {
         this.assignmentName = assignmentName;
         this.deadline = deadline;
     }
 
-    public Assignments(String assignmentName, Courses course, Date deadline) {
+    public Assignments(String assignmentName, Courses course, LocalDate deadline) {
         this.assignmentName = assignmentName;
         this.course = course;
         this.deadline = deadline;
@@ -61,7 +62,7 @@ public class Assignments {
 
     public void setCourse(Courses course) { this.course = course; }
 
-    public Date getDeadline() { return deadline; }
+    public LocalDate getDeadline() { return deadline; }
 
-    public void setDeadline(Date deadline) { this.deadline = deadline; }
+    public void setDeadline(LocalDate deadline) { this.deadline = deadline; }
 }
