@@ -11,4 +11,5 @@ public interface GradesDAO extends JpaRepository<Grades,Integer> {
     List<Grades> findByAssignmentAssignmentsId(Integer assignmentId);
     List<Grades> findByUserUserId(Integer userId);
     Grades findByAssignmentAssignmentsIdAndUserUserId(Integer assignmentId, Integer userId);
+
 }

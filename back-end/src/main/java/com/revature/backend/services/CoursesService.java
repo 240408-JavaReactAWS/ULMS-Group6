@@ -10,8 +10,10 @@ import com.revature.backend.repos.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CoursesService {
@@ -56,7 +58,7 @@ public class CoursesService {
         return deletedCourse;
     }
 
-    public Optional<Courses> assignTeacherToCourse(Integer courseId, Integer teacherId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException, TeacherAlreadyPresentException {
+    public Optional<Users> assignTeacherToCourse(Integer courseId, Integer teacherId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException, TeacherAlreadyPresentException {
         Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
         Users teacher = usersDAO.findById(teacherId).orElseThrow(() -> new NoSuchUserException("No user with id:"+ teacherId + "found"));
 
@@ -71,10 +73,11 @@ public class CoursesService {
         }
 
         course.setTeacher(teacher);
-        return Optional.of(coursesDAO.save(course));
+        coursesDAO.save(course);
+        return Optional.of(teacher);
     }
 
-    public Optional<Courses> assignStudentToCourse(Integer courseId, Integer studentId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException, CourseFullException {
+    public Optional<Users> assignStudentToCourse(Integer courseId, Integer studentId) throws NoSuchCourseException, NoSuchUserException, InvalidRoleException, CourseFullException {
         Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
         Users student = usersDAO.findById(studentId).orElseThrow(() -> new NoSuchUserException("No user with id:"+ studentId + "found"));
 
@@ -89,6 +92,26 @@ public class CoursesService {
         }
 
         course.getStudents().add(student);
-        return Optional.of(coursesDAO.save(course));
+        coursesDAO.save(course);
+        return Optional.of(student);
     }
+
+    public Set<Users> getEnrolledStudents(Integer courseId) throws NoSuchCourseException {
+        Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
+        return course.getStudents();
+    }
+
+    public Users getTeacher(Integer courseId) throws NoSuchCourseException {
+        Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
+        return course.getTeacher();
+    }
+
+    public void removeStudentFromCourse(Integer courseId, Integer studentId) throws NoSuchCourseException, NoSuchUserException {
+        Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
+        Users student = usersDAO.findById(studentId).orElseThrow(() -> new NoSuchUserException("No user with id:"+ studentId + "found"));
+        course.getStudents().remove(student);
+        coursesDAO.save(course);
+    }
+
+
 }

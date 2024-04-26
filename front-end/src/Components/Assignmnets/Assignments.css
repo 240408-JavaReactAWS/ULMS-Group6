@@ -1,3 +1,4 @@
+
 .new-assignment-form {
     margin-bottom: 20px;
     display: flex;
@@ -47,3 +48,33 @@
     color: #555;
     margin-top: 5px;
   }
+  .title{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: #008000; /* Green color */
+}
+
+  .assignment-card {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #008000; /* Green border */
+    box-shadow: 0 2px 5px rgba(0, 128, 0, 0.15); /* Green shadow */
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #f0fff0; /* Light green background */
+}
+
+  .button{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 8px;
+    margin: 20px
+}
