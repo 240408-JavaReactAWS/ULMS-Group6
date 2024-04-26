@@ -7,6 +7,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Assignments from './Components/Assignmnets/Assignments';
 import Announcements from './Components/Announcements/Announcements';
 import NewAnnouncementForm from './Components/Announcements/NewAnnouncementForm';
+import Dashboard from './Pages/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/assignments" element={<Assignments userId={13} courseId={5}/>} /> 
         <Route path="/courses/:courseId/announcements" element={<Announcements/>} />
         <Route path="/courses/:courseId/announcements/new-announcement" element={<NewAnnouncementForm/>} />
