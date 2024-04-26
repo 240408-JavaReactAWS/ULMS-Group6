@@ -10,6 +10,7 @@ import UserList from './Pages/UserList/UserList';
 import CourseList from './Pages/CourseList/CourseList';
 import CourseManage from './Pages/CourseManage/CourseManage';
 import Assignments from './Components/Assignmnets/Assignments';
+import AssignmentTeacher from './Components/Assignmnets/AssignmentTeacher';
 import Announcements from './Components/Announcements/Announcements';
 import NewAnnouncementForm from './Components/Announcements/NewAnnouncementForm';
 import Dashboard from './Pages/Dashboard/Dashboard';
@@ -17,8 +18,10 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 function App() {
   return (
     <BrowserRouter>
+    <Nav></Nav>
       <Routes>
         <Route path="/" element={<Login/>} />
+        <Route path="/assignmentsTeacher" element={<AssignmentTeacher />}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/assignments" element={<Assignments userId={13} courseId={5}/>} /> 
