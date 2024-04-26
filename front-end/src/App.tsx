@@ -5,15 +5,17 @@ import './App.css';
 import Login from './Pages/Login/Login';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Assignments from './Components/Assignmnets/Assignments';
+import AssignmentTeacher from './Components/Assignmnets/AssignmentTeacher';
 
 function App() {
   return (
     <BrowserRouter>
+    <Nav></Nav>
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/assignments" element={<Assignments/>} /> 
+        <Route path="/assignmentsTeacher" element={<AssignmentTeacher />}/>
       </Routes>
-      <Nav></Nav>
     </BrowserRouter>
   );
 }
