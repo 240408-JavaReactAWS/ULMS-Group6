@@ -29,18 +29,13 @@ function Dashboard() {
         <>
             {(localStorage.getItem("username")) ? 
                 <>
-                    {
-                        curUser.map((user : any) => {
-                           return (<div>
-                                <h1>Welcome {user.username}</h1>
-
-                                <table>
-                                    <tr>
-                                        <td>
-                                            // create table of users courses. problem is showing which courses user can see
-                                        </td>
-                                    </tr>
-                                </table>
+                    { 
+                        curUser.map((user : any) => { //map courses related to current user
+                           return (
+                           <div>
+                                <h1>Welcome {user.username}</h1> 
+                                // display courses here
+                                
                            </div> 
                         )})
                     }
