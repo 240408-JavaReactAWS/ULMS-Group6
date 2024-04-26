@@ -7,14 +7,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/courses/{courseId}/assignments")
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class AssignmentsController {
     private final AssignmentsService assignmentsService;
 
     @Autowired
     public AssignmentsController(AssignmentsService assignmentsService) {
         this.assignmentsService = assignmentsService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Assignments>> getAssignments(@PathVariable("courseId") Integer courseId) {
+        List<Assignments> assignments = assignmentsService.getAllAssignmentsByCourseId(courseId);
+        return ResponseEntity.ok(assignments);
     }
 
     @PostMapping

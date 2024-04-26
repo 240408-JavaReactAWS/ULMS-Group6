@@ -1,30 +1,36 @@
 package com.revature.backend.services;
 
+import com.revature.backend.config.UserDTO;
+import com.revature.backend.config.UserGradesDTO;
+import com.revature.backend.exceptions.NoSuchCourseException;
 import com.revature.backend.exceptions.NoSuchUserFoundException;
 import com.revature.backend.models.Assignments;
+import com.revature.backend.models.Courses;
 import com.revature.backend.models.Grades;
 import com.revature.backend.models.Users;
 import com.revature.backend.repos.AssignmentsDAO;
+import com.revature.backend.repos.CoursesDAO;
 import com.revature.backend.repos.GradesDAO;
 import com.revature.backend.repos.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GradesService {
     private GradesDAO gradesDAO;
     private AssignmentsDAO assignmentsDAO;
     private UsersDAO usersDAO;
+    private CoursesDAO coursesDAO;
 
     @Autowired
-    public GradesService(GradesDAO gradesDAO, AssignmentsDAO assignmentsDAO, UsersDAO usersDAO) {
+    public GradesService(GradesDAO gradesDAO, AssignmentsDAO assignmentsDAO, UsersDAO usersDAO, CoursesDAO coursesDAO) {
         this.gradesDAO = gradesDAO;
         this.assignmentsDAO = assignmentsDAO;
         this.usersDAO = usersDAO;
+        this.coursesDAO = coursesDAO;
     }
 
     //logic to retrieve grades for a specific student
@@ -58,12 +64,12 @@ public class GradesService {
         // You may need to perform additional validation
         Grades existingGrade = gradesDAO.findByAssignmentAssignmentsIdAndUserUserId(assignmentId, userId);
         if (existingGrade != null) {
-            System.out.println("Grade already exists");
+            System.out.println("orignal" + existingGrade.getGrade());
             existingGrade.setGrade(grade);
+            System.out.println("Updated" + existingGrade.getGrade());
             return gradesDAO.save(existingGrade);
         } else {
             // Create a new grade
-            System.out.println("Grade Doesnt exists");
             Assignments assignment = assignmentsDAO.findById(assignmentId)
                     .orElseThrow(() -> new IllegalArgumentException("Assignment not found"));
 
@@ -76,6 +82,60 @@ public class GradesService {
             newGrade.setGrade(grade);
             return gradesDAO.save(newGrade);
         }
+
+
     }
 
+
+
+    public List<UserGradesDTO> getAllGradesForCourse(Integer courseId) {
+        try {
+            // Get the course
+            Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
+
+            // Get the students in the course
+            Set<Users> students = course.getStudents();
+
+            // Create a list to hold the result
+            List<UserGradesDTO> studentGradesList = new ArrayList<>();
+
+            // Iterate over each student
+            for (Users student : students) {
+                // Get all grades for the student
+                List<Grades> grades = gradesDAO.findByUserUserId(student.getUserId());
+
+                // Create a UserDTO object with the student's id, first name, and last name
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(student.getUserId());
+                userDTO.setFirstName(student.getFirstName());
+                userDTO.setLastName(student.getLastName());
+
+                // Create a UserGradesDTO object and add it to the list
+                UserGradesDTO userGradesDTO = new UserGradesDTO();
+                userGradesDTO.setUser(userDTO);
+                userGradesDTO.setGrades(grades);
+                studentGradesList.add(userGradesDTO);
+            }
+
+            return studentGradesList;
+        } catch (NoSuchCourseException e) {
+            // Log the exception and return an empty list
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Grades> assignBulkGrades(List<UserGradesDTO> userGradesList) {
+        List<Grades> assignedGrades = new ArrayList<>();
+        for (UserGradesDTO userGrades : userGradesList) {
+            UserDTO userDTO = userGrades.getUser();
+            for (Grades grade : userGrades.getGrades()) {
+                Grades assignedGrade = assignGrade(grade.getAssignment().getAssignmentsId(), userDTO.getId(), grade.getGrade());
+                assignedGrades.add(assignedGrade);
+            }
+        }
+
+        return assignedGrades;
+    }
 }
+

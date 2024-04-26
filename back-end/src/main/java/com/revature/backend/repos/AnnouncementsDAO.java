@@ -12,7 +12,4 @@ public interface AnnouncementsDAO extends JpaRepository<Announcements, Integer> 
     List<Announcements> findByCourse_Students_UserIdAndCourse_CourseId(Integer studentId, Integer courseId);
 
     List<Announcements> findByCourse_CourseId(Integer courseId);
-   // As a Student, I can check course Announcements for different courses.
-    List<Announcements> findByCourse_Students_UserIdAndCourse_CourseId(Integer studentId, Integer courseId);
-
 }

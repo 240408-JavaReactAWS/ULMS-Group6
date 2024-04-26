@@ -61,4 +61,8 @@ public class AssignmentsService {
         }
         assignmentsDAO.deleteById(assignmentId);
     }
+
+    public List<Assignments> getAllAssignmentsByCourseId(Integer courseId) {
+        return assignmentsDAO.findByCourse_CourseId(courseId);
+    }
 }
