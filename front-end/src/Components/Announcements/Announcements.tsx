@@ -1,47 +1,91 @@
 // create page for announcements
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import "./Announcements.css"
+import { useNavigate, useParams } from 'react-router-dom'
+import './Announcements.css'
 
 interface Announcement {
+    announcementId: number;
     message: string;
     date: any;
 }
 
-interface AnnouncementsProps {
-    courseId: number;
+interface RouteParams {
+    courseId: string;
+    [key: string]: string | undefined;
 }
 
 // function username from local storage
-function getUsername() {
-    let username = localStorage.getItem("username");
-    if (username === null) {
+function getUserRole() {
+    let userRole = localStorage.getItem("userRole");
+    if (userRole === null) {
         return "";
     }        
-    return username;
+    return userRole;
 }
 
-function Announcements({courseId}: AnnouncementsProps) {
+function Announcements() {
+    const { courseId } = useParams<RouteParams>();
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const navigate = useNavigate();
+    const userRole = getUserRole();
+
+    // delete announcement 
+    const deleteAnnouncement = async (announcementId: number) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this announcement?");
+        if(confirmDelete){
+            try {
+                await axios.delete(`http://localhost:8080/courses/${courseId}/announcements/${announcementId}`);
+                
+                // remove the deleted announcement from the list
+                setAnnouncements(announcements.filter(announcement => announcement.announcementId !== announcementId));
+            } catch (error) {
+                console.error('Error deleting announcement', error);
+            }
+        }
+        
+    }
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/courses/${courseId}/announcements`).then(response => {
-            console.log(response.data);
-            setAnnouncements(response.data);
-        }).catch(error => {
-            console.log('Errors retriving Announcements', error);
-        });
+        localStorage.setItem('userRole', 'TEACHER');
     }, []);
+
+    useEffect(() => {
+        const fetchAnnouncements = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/courses/${courseId}/announcements`);
+                setAnnouncements(response.data);
+            } catch (error) {
+                console.error('Error fetching announcements', error);
+            }
+        }
+    
+        fetchAnnouncements();
+    }, [courseId]);
+
+    const handleNewAnnouncement = () => {
+        navigate(`/courses/${courseId}/announcements/new-announcement`);
+    }
+
     return (
         <>
             <div>
                 <h1 className = "title">Announcements</h1>
+                {
+                    userRole === "TEACHER" &&
+                    <button onClick={handleNewAnnouncement}>New Announcement</button>
+                }
                 <div className="announcement-container">
                     {announcements.map((announcement, index) => {
                         return (
                             <div key={index} className="announcement-card">
                                 <h3>{announcement.message}</h3>
                                 <p>Date: {announcement.date}</p>
+                                {
+                                    
+                                    userRole === "TEACHER" &&
+                                    <button onClick={() => deleteAnnouncement(announcement.announcementId)}>Delete</button>
+                                }
                             </div>
                         );
                     })}
