@@ -27,7 +27,7 @@ public class UsersController {
     public UsersController(UsersService us){
         this.usersService = us;
     }
-
+  
     @GetMapping
     public ResponseEntity<List<Users>> getAllUsersHandler(){
         List<Users> users = usersService.getAllUsers();
@@ -74,7 +74,7 @@ public class UsersController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
-  
+ 
     //As a Student, I can view all my courses.
     @GetMapping("/{studentId}/courses")
     public ResponseEntity<?> getEnrolledCourses(@PathVariable Integer studentId) {
