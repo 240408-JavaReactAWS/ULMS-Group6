@@ -1,9 +1,13 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import axios from 'axios';
-import { Assignment } from './Assignments';
+import Assignment from '../../interfaces/AssignmentInterface';
 import './Assignments.css';
 
-export default function AssignmentTeacher() {
+interface AssignmentsProps {
+    courseId: number
+}
+
+export default function AssignmentTeacher({courseId}: AssignmentsProps) {
 
 
     const [name, setName] = useState('')
@@ -13,13 +17,13 @@ export default function AssignmentTeacher() {
 
 
     useEffect(() => {
-        axios.get('http://localhost:8080/users/2/courses/1/assignments').then(response => {
+        axios.get(`http://localhost:8080/courses/${courseId}/assignments`).then(response => {
             // console.log(response.data);
             setAssignments(response.data);
         }).catch(error => {
             console.log('Errors retriving Assignments', error);
         });
-    }, []);
+    }, [courseId]);
 
 
     let addName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +38,7 @@ export default function AssignmentTeacher() {
         e.preventDefault();
         try {
             const formattedDeadline = formatDeadline(deadline);
-            let res = await axios.post('http://localhost:8080/courses/1/assignments', {
+            let res = await axios.post(`http://localhost:8080/courses/${courseId}/assignments`, {
                 assignmentName: name,
                 deadline: formattedDeadline
             });
@@ -51,9 +55,9 @@ export default function AssignmentTeacher() {
         }
     }
 
-    let deleteAssignment = async (assignmentId: string) => {
+    let deleteAssignment = async (assignmentId: number) => {
         try {
-            let res = await axios.delete(`http://localhost:8080/courses/1/assignments/${assignmentId}`, { withCredentials: false });
+            let res = await axios.delete(`http://localhost:8080/courses/${courseId}/assignments/${assignmentId}`, { withCredentials: false });
             if (res.status === 200) {
                 console.log("Assignment Deleted");
             }
