@@ -5,7 +5,6 @@ import './Assignments.css';
 import Assignment from '../../interfaces/AssignmentInterface';
 import { useParams } from 'react-router-dom';
 
-
 interface AssignmentsProps {
     userId: number,
     courseId: number
