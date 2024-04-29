@@ -30,7 +30,7 @@ function Dashboard() {
     },[]);
 
     return (
-        <>
+        <> 
             <h1> {curUser?.role === 'TEACHER'? 'Teacher Dashboard': 'Student Dashboard'}</h1>
             <h2> Welcome, {curUser?.username}</h2>
             <button onClick={() => {

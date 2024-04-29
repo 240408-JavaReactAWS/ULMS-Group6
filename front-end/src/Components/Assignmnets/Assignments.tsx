@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { error } from 'console';
 import './Assignments.css';
-import Assignment from '../../interfaces/AssignmentInterface';
+import Assignment from '../../Interfaces/AssignmentInterface';
 
 interface AssignmentsProps {
     userId: number,

@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import axios from 'axios';
-import Assignment from '../../interfaces/AssignmentInterface';
+import Assignment from '../../Interfaces/AssignmentInterface';
 import './Assignments.css';
 
 interface AssignmentsProps {
