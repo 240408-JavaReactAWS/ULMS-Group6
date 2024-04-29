@@ -4,12 +4,15 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import CourseList from "../CourseList/CourseList";
 import './AdminDashboard.css';
+import AdminNav from "../../Components/AdminNav/AdminNav";
+import UserList from "../UserList/UserList";
 
 function AdminDashboard() {
     // find the user in the database from local storage
     // if the user is not found, redirect to the login page
     // if the user is found, display the user's username
     const navigate = useNavigate();
+    const [selectedTab, setSelectedTab] = useState('userlist');
 
     const [curUser, setCurrentUser] = useState<User | null>();
 
@@ -37,16 +40,22 @@ function AdminDashboard() {
 
     return (
         <>
+        
           <div className="dashboard-header">
             <div className = "title-container"> 
               <h1> Admin Dashboard</h1>
               <h2> Welcome, {curUser?.username}</h2>
             </div>
           </div>
-
-          <div className="course-list-container">
-            <CourseList />
+          <div className="course-page">
+          <div className="tab-buttons">
+            <button onClick={() => setSelectedTab('userlist')} className="tab-button">User List</button>
+            <button onClick={() => setSelectedTab('courselist')} className="tab-button">Course List</button>
           </div>
+          </div>
+          {selectedTab === 'userlist' && <UserList />}
+          {selectedTab === 'courselist' && <CourseList />}
+         
         </>
     )
 }

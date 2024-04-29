@@ -17,6 +17,7 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import Courses from './Pages/CoursePages/Courses';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
 import Home from './Pages/Home/Home';
+import Role from './interfaces/RoleInterface';
 
 function App() {
   return (
@@ -24,17 +25,15 @@ function App() {
       <Nav/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/assignmentsTeacher" element={<AssignmentTeacher courseId={2} />}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/adminDashboard" element={<AdminDashboard />} />
-        <Route path="/courses/:courseId/assignments" element={<Assignments/>} /> 
+        <Route path="/courses/:courseId/assignments" element= {localStorage.getItem("userRole") == Role.teacher ? <AssignmentTeacher/> : <Assignments/> } />
         <Route path="/courses/:courseId/announcements" element={<Announcements/>} />
         <Route path="/courses/:courseId/announcements/new-announcement" element={<NewAnnouncementForm/>} />
-        <Route path="/courses/:courseId/GradesStudent" element={<GradesContainer />} />
-        <Route path="/courses/:courseId/grades/GradesTeacher" element={<TeacherGrades />} />
-        <Route path="/UserList" element={<UserList />} />
-        <Route path="/CourseList" element={<CourseList />} />
+        <Route path="/courses/:courseId/grades" element={localStorage.getItem("userRole") == Role.teacher ? <TeacherGrades /> : <GradesContainer/>} />
+        <Route path="/adminDashboard/UserList" element={<UserList />} />
+        <Route path="/adminDashboard/CourseList" element={<CourseList />} />
         <Route path="/manage-course/:courseId" element={<CourseManage />} />
         <Route path="/courses/:courseId" element={<Courses />} />
       </Routes>

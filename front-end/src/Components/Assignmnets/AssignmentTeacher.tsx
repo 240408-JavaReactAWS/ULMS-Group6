@@ -2,13 +2,10 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import axios from 'axios';
 import './Assignments.css';
 import Assignment from '../../interfaces/AssignmentInterface';
+import { useParams } from 'react-router-dom';
 
 
-interface AssignmentsProps {
-    courseId: number
-}
-
-export default function AssignmentTeacher({courseId}: AssignmentsProps) {
+export default function AssignmentTeacher() {
 
 
     const [name, setName] = useState('')
@@ -16,7 +13,8 @@ export default function AssignmentTeacher({courseId}: AssignmentsProps) {
 
     const [assignments, setAssignments] = useState<Assignment[]>([]);
 
-
+    const courseId = useParams<{ courseId: string }>().courseId;
+    
     useEffect(() => {
         axios.get(`http://localhost:8080/courses/${courseId}/assignments`).then(response => {
             // console.log(response.data);
