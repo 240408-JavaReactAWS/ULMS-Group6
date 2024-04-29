@@ -1,5 +1,6 @@
 // Type: Interface
-import Role from './RoleInterface';
+
+import Role from "./RoleInterface";
 
 export default interface User {
     userId: number ;
