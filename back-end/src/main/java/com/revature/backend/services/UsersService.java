@@ -57,6 +57,22 @@ public class UsersService {
     }
 
     /**
+     * Retrieves all courses a teacher is assigned to teach.
+     * @param teacherId the ID of the teacher
+     * @return a set of courses the teacher teaches
+     * @throws NoSuchUserFoundException if no user is found with the specified ID
+     */
+    public List<Courses> getTaughtCourses(Integer teacherId) throws  NoSuchUserFoundException {
+        Optional<Users> usersOptional = usersDAO.findById(teacherId);
+        if(usersOptional.isPresent()){
+            Users user = usersOptional.get();
+            return user.getTaughtCourses();
+        }else{
+            throw new NoSuchUserFoundException("No user found with ID: " + teacherId);
+        }
+    }
+
+    /**
      * Retrieves all assignments for a specific student and course.
      * @param studentId the ID of the student
      * @param courseId the ID of the course

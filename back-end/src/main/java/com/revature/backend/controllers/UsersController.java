@@ -151,6 +151,27 @@ public class UsersController {
         }
     }
 
+    @GetMapping("/{teacherId}/taught")
+    public ResponseEntity<?> getTaughtCourses(@PathVariable Integer teacherId) {
+        try {
+            List<Courses> taughtCourses = usersService.getTaughtCourses(teacherId);
+            Set<Map<String, Object>> response = new HashSet<>();
+
+            for (Courses course : taughtCourses) {
+                Map<String, Object> courseDetails = new HashMap<>();
+                courseDetails.put("courseId", course.getCourseId());
+                courseDetails.put("courseName", course.getCourseName());
+                courseDetails.put("teacherName", course.getTeacher().getFirstName() + " " + course.getTeacher().getLastName());
+                response.add(courseDetails);
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (NoSuchUserFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No user found with ID: " + teacherId);
+        }
+    }
+
     /**
      * Handles the GET request to retrieve all assignments and due dates for a specific student and course.
      * @param studentId the ID of the student
