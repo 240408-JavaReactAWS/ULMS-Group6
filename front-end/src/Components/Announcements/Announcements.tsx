@@ -12,7 +12,7 @@ interface Announcement {
 
 // function username from local storage
 function getUserRole() {
-    let userRole = localStorage.getItem("userRole");
+    let userRole = localStorage.getItem("role");
     if (userRole === null) {
         return "";
     }        
@@ -40,10 +40,6 @@ function Announcements() {
         }
         
     }
-
-    useEffect(() => {
-        localStorage.setItem('userRole', 'TEACHER');
-    }, []);
 
     useEffect(() => {
         const fetchAnnouncements = async () => {
