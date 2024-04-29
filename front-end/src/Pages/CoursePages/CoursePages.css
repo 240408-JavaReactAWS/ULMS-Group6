@@ -1,0 +1,55 @@
+.course-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-image: linear-gradient(to bottom, #f2f2f2, #fff); /* Add a background gradient */
+  }
+  
+  .tab-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .tab-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .tab-button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .content-container {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .announcement-card {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .announcement-card h3 {
+    font-weight: bold;
+    margin-top: 0;
+  }
+  
+  .announcement-card p {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .course-name {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    
+  }

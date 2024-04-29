@@ -14,22 +14,27 @@ interface Grade {
     assignment: Assignment
 }
 
+interface GradesProp {
+    courseId: number,
+    userId: number
+}
+
 /**
  * Renders a container component for displaying grades.
  */
-function GradesContainer() {
+function GradesContainer({courseId, userId}:GradesProp) {
     const [grades, setGrades] = useState<Grade[]>([]); // Specify the type for grades
 
     useEffect(() => {
         // Make API call to fetch grades
-        axios.get('http://localhost:8080/1/grades/1')
+        axios.get(`http://localhost:8080/${courseId}/grades/${userId}`)
             .then(response => {
                 setGrades(response.data);
             })
             .catch(error => {
                 console.error('Error fetching grades:', error);
             });
-    }, []); // Empty array ensures that this effect runs only once
+    }, [courseId, userId]); // Empty array ensures that this effect runs only once
 
     let count = 0;
     const totalGrade = grades.reduce((total, grade) => {
