@@ -3,6 +3,7 @@ import axios from 'axios';
 import { error } from 'console';
 import './Assignments.css';
 import Assignment from '../../interfaces/AssignmentInterface';
+import { useParams } from 'react-router-dom';
 
 
 interface AssignmentsProps {
@@ -10,7 +11,9 @@ interface AssignmentsProps {
     courseId: number
 }
 
-function Assignments({ userId, courseId }: AssignmentsProps) {
+function Assignments() {
+    const courseId = useParams<{ courseId: string }>().courseId;
+    const userId= localStorage.getItem("userId");
     const [assignments, setAssignments] = useState<Assignment[]>([]);
     //For rendering when teacher add/ removes assignments
     const [fetching, setFetching] = useState(false);
@@ -19,7 +22,7 @@ function Assignments({ userId, courseId }: AssignmentsProps) {
         const fetchAssignments = async () => {
             setFetching(true);
             try {
-                const response = await axios.get(`http://localhost:8080/users/${userId}/courses/${courseId}/assignments`);
+                const response = await axios.get(`http://localhost:8080/courses/${courseId}/assignments`);
                 setAssignments(response.data);
             } catch (error) {
                 console.log('Errors retrieving Assignments', error);
