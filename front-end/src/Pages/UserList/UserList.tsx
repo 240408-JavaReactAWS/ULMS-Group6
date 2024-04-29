@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import User from "../../interfaces/UserInterface";
-import UserForm from "../../interfaces/UserFormInterface";
-import Role from "../../interfaces/RoleInterface";
+import User from "../../Interfaces/UserInterface";
+import UserForm from "../../Interfaces/UserFormInterface";
+import Role from "../../Interfaces/RoleInterface";
 
 function UserList() {
   const [users, setUsers] = useState<User[]>([]);

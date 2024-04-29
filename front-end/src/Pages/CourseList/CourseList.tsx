@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import Course from "../../interfaces/CourseInterface";
-import CourseForm from "../../interfaces/CourseFormInterface";
+import Course from "../../Interfaces/CourseInterface";
+import CourseForm from "../../Interfaces/CourseFormInterface";
 import { Link } from 'react-router-dom';
 
 
@@ -52,7 +52,7 @@ function CourseList() {
       };
   return (
     <div>
-      <h1>Course List</h1>
+      <h3>Course List</h3>
       <button onClick={handleShow}>Add Course</button>
       {show && (
         <form onSubmit={addCourse}>
