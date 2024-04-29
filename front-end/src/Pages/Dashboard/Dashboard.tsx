@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
-import User from "../../Interfaces/UserInterface";
+import User from "../../interfaces/UserInterface";
 
 function Dashboard() {
     const [curUser, setCurrentUser] = useState<User | null>();
@@ -33,10 +33,6 @@ function Dashboard() {
         <>
             <h1> {curUser?.role === 'TEACHER'? 'Teacher Dashboard': 'Student Dashboard'}</h1>
             <h2> Welcome, {curUser?.username}</h2>
-            <button onClick={() => {
-                localStorage.clear();
-                navigate('/login');
-            }}>Logout</button>
         </>
     )
 }

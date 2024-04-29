@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import User from "../../Interfaces/UserInterface";
+import User from "../../interfaces/UserInterface";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import CourseList from "../CourseList/CourseList";
@@ -32,7 +32,6 @@ function AdminDashboard() {
               console.error(error);
           }
       }
-
       asyncCall();
   },[]) 
 
@@ -43,10 +42,6 @@ function AdminDashboard() {
               <h1> Admin Dashboard</h1>
               <h2> Welcome, {curUser?.username}</h2>
             </div>
-            <button className= "logout-button" onClick={() => {
-                localStorage.clear();
-                navigate('/login');
-            }}>Logout</button>
           </div>
 
           <div className="course-list-container">

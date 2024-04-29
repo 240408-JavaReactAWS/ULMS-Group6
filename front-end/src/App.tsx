@@ -21,7 +21,7 @@ import Home from './Pages/Home/Home';
 function App() {
   return (
     <BrowserRouter>
-    <Nav></Nav>
+      <Nav/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/assignmentsTeacher" element={<AssignmentTeacher courseId={2} />}/>

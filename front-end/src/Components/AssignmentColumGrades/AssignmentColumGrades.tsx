@@ -1,5 +1,5 @@
 import React from "react";
-import Assignment from "../../Interfaces/AssignmentInterface";
+import Assignment from "../../interfaces/AssignmentInterface";
 
 /**
  * Renders a table header cell for an assignment column with the assignment name.
