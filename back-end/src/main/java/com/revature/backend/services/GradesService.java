@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+/**
+ * Service class for handling operations related to Grades.
+ */
 @Service
 public class GradesService {
     private GradesDAO gradesDAO;
@@ -25,6 +28,13 @@ public class GradesService {
     private UsersDAO usersDAO;
     private CoursesDAO coursesDAO;
 
+    /**
+     * Constructs a GradesService with the specified GradesDAO, AssignmentsDAO, UsersDAO, and CoursesDAO.
+     * @param gradesDAO the DAO to manage grades
+     * @param assignmentsDAO the DAO to manage assignments
+     * @param usersDAO the DAO to manage users
+     * @param coursesDAO the DAO to manage courses
+     */
     @Autowired
     public GradesService(GradesDAO gradesDAO, AssignmentsDAO assignmentsDAO, UsersDAO usersDAO, CoursesDAO coursesDAO) {
         this.gradesDAO = gradesDAO;
@@ -33,43 +43,54 @@ public class GradesService {
         this.coursesDAO = coursesDAO;
     }
 
-    //logic to retrieve grades for a specific student
+    /**
+     * Retrieves all grades for a specific student.
+     * @param userId the ID of the student
+     * @return a list of grades for the specified student
+     */
     public List<Grades> getStudentAllGrades(Integer userId) {
-        // Implement logic to retrieve grades for a specific student
         return gradesDAO.findByUserUserId(userId);
     }
 
+    /**
+     * Retrieves all grades for a specific assignment.
+     * @param assignmentId the ID of the assignment
+     * @return a list of grades for the specified assignment
+     */
     public List<Grades> getAssignmentAllGrades(Integer assignmentId) {
-        // Implement logic to retrieve grades for a specific assignment
         return gradesDAO.findByAssignmentAssignmentsId(assignmentId);
     }
 
-    // Logic for Getting grade for specific student/ assignment
+    /**
+     * Retrieves a grade for a specific student and assignment.
+     * @param assignmentId the ID of the assignment
+     * @param userId the ID of the student
+     * @return the grade for the specified student and assignment
+     * @throws NoSuchUserFoundException if no student is found with the specified ID
+     */
     public Grades getAssignmentGrades(Integer assignmentId, Integer userId) throws NoSuchUserFoundException {
-        // Implement logic to retrieve grades for a specific assignment
         Optional<Users> studentOptional = usersDAO.findById(userId);
-      if (studentOptional.isPresent()) {
-          Users student = studentOptional.get();
-          //Using method in GradesDAO to find grade by user and assignment
-          return gradesDAO.findByAssignmentAssignmentsIdAndUserUserId(assignmentId, userId);
-      } else
-          throw new NoSuchUserFoundException("No student found with ID: " + userId);
+        if (studentOptional.isPresent()) {
+            return gradesDAO.findByAssignmentAssignmentsIdAndUserUserId(assignmentId, userId);
+        } else {
+            throw new NoSuchUserFoundException("No student found with ID: " + userId);
+        }
     }
 
-
-
+    /**
+     * Assigns or updates a grade for a student's assignment.
+     * @param assignmentId the ID of the assignment
+     * @param userId the ID of the student
+     * @param grade the grade to be assigned
+     * @return the assigned or updated grade
+     */
     @Transactional
     public Grades assignGrade(Integer assignmentId, Integer userId, Double grade) {
-        // Implement logic to assign/update grade for a student's assignment
-        // You may need to perform additional validation
         Grades existingGrade = gradesDAO.findByAssignmentAssignmentsIdAndUserUserId(assignmentId, userId);
         if (existingGrade != null) {
-            System.out.println("orignal" + existingGrade.getGrade());
             existingGrade.setGrade(grade);
-            System.out.println("Updated" + existingGrade.getGrade());
             return gradesDAO.save(existingGrade);
         } else {
-            // Create a new grade
             Assignments assignment = assignmentsDAO.findById(assignmentId)
                     .orElseThrow(() -> new IllegalArgumentException("Assignment not found"));
 
@@ -82,49 +103,41 @@ public class GradesService {
             newGrade.setGrade(grade);
             return gradesDAO.save(newGrade);
         }
-
-
     }
 
-
-
+    /**
+     * Retrieves all grades for a specific course.
+     * @param courseId the ID of the course
+     * @return a list of UserGradesDTO objects, each containing a student and their grades
+     */
     public List<UserGradesDTO> getAllGradesForCourse(Integer courseId) {
         try {
-            // Get the course
             Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
-
-            // Get the students in the course
             Set<Users> students = course.getStudents();
-
-            // Create a list to hold the result
             List<UserGradesDTO> studentGradesList = new ArrayList<>();
-
-            // Iterate over each student
             for (Users student : students) {
-                // Get all grades for the student
                 List<Grades> grades = gradesDAO.findByUserUserId(student.getUserId());
-
-                // Create a UserDTO object with the student's id, first name, and last name
                 UserDTO userDTO = new UserDTO();
                 userDTO.setId(student.getUserId());
                 userDTO.setFirstName(student.getFirstName());
                 userDTO.setLastName(student.getLastName());
-
-                // Create a UserGradesDTO object and add it to the list
                 UserGradesDTO userGradesDTO = new UserGradesDTO();
                 userGradesDTO.setUser(userDTO);
                 userGradesDTO.setGrades(grades);
                 studentGradesList.add(userGradesDTO);
             }
-
             return studentGradesList;
         } catch (NoSuchCourseException e) {
-            // Log the exception and return an empty list
             System.out.println(e.getMessage());
             return new ArrayList<>();
         }
     }
 
+    /**
+     * Assigns grades to multiple students for multiple assignments.
+     * @param userGradesList a list of UserGradesDTO objects, each containing a student and their grades
+     * @return a list of the assigned grades
+     */
     public List<Grades> assignBulkGrades(List<UserGradesDTO> userGradesList) {
         List<Grades> assignedGrades = new ArrayList<>();
         for (UserGradesDTO userGrades : userGradesList) {
@@ -134,8 +147,6 @@ public class GradesService {
                 assignedGrades.add(assignedGrade);
             }
         }
-
         return assignedGrades;
     }
 }
-

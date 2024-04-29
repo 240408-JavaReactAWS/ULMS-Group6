@@ -1,6 +1,5 @@
 package com.revature.backend.services;
 
-
 import com.revature.backend.models.Assignments;
 import com.revature.backend.models.Courses;
 import com.revature.backend.models.Grades;
@@ -15,12 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service class for handling operations related to Assignments.
+ */
 @Service
 public class AssignmentsService {
     private AssignmentsDAO assignmentsDAO;
     private CoursesDAO coursesDAO;
     private GradesDAO gradesDAO;
 
+    /**
+     * Constructs an AssignmentsService with the specified AssignmentsDAO, CoursesDAO, and GradesDAO.
+     * @param assignmentsDAO the DAO to manage assignments
+     * @param coursesDAO the DAO to manage courses
+     * @param gradesDAO the DAO to manage grades
+     */
     @Autowired
     public AssignmentsService(AssignmentsDAO assignmentsDAO, CoursesDAO coursesDAO, GradesDAO gradesDAO) {
         this.assignmentsDAO = assignmentsDAO;
@@ -28,19 +36,19 @@ public class AssignmentsService {
         this.gradesDAO = gradesDAO;
     }
 
+    /**
+     * Creates an assignment for a specific course and creates default grades for each student in the course.
+     * @param courseId the ID of the course
+     * @param assignment the assignment to be created
+     * @return the created assignment
+     * @throws IllegalArgumentException if no course is found with the specified ID
+     */
     @Transactional
     public Assignments createAssignment(Integer courseId, Assignments assignment) {
-        // Retrieve the course using the courseId
         Courses course = coursesDAO.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Course not found"));
-
-        // Associate the assignment with the course
         assignment.setCourse(course);
-
-        // Save the assignment to the database
         Assignments newAssignment = assignmentsDAO.save(assignment);
-
-        // Create default grades for each student enrolled in the course
         Set<Users> students = course.getStudents();
         for (Users student : students) {
             Grades defaultGrade = new Grades();
@@ -49,19 +57,26 @@ public class AssignmentsService {
             defaultGrade.setGrade(null); // Set default grade to null initially
             gradesDAO.save(defaultGrade);
         }
-
         return newAssignment;
     }
 
+    /**
+     * Deletes an assignment and all associated grades.
+     * @param assignmentId the ID of the assignment to be deleted
+     */
     public void deleteAssignment(Integer assignmentId) {
         List<Grades> gradesToDelete = gradesDAO.findByAssignmentAssignmentsId(assignmentId);
-        // Delete each grade
         for (Grades grade : gradesToDelete) {
             gradesDAO.delete(grade);
         }
         assignmentsDAO.deleteById(assignmentId);
     }
 
+    /**
+     * Retrieves all assignments for a specific course.
+     * @param courseId the ID of the course
+     * @return a list of assignments for the specified course
+     */
     public List<Assignments> getAllAssignmentsByCourseId(Integer courseId) {
         return assignmentsDAO.findByCourse_CourseId(courseId);
     }
