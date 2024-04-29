@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
-import User from "../../Interfaces/UserInterface";
+import User from "../../interfaces/UserInterface";
 
 function Dashboard() {
     const [curUser, setCurrentUser] = useState<User | null>();

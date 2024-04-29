@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import User from "../../Interfaces/UserInterface";
+import User from "../../interfaces/UserInterface";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import CourseList from "../CourseList/CourseList";
