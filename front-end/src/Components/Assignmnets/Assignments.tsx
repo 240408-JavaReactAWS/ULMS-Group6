@@ -22,23 +22,26 @@ function Assignments() {
             setFetching(true);
             try {
                 const response = await axios.get(`http://localhost:8080/courses/${courseId}/assignments`);
-                setAssignments(response.data);
+                if(Array.isArray(response.data)){
+                    setAssignments(response.data);
+                }else{
+                    console.error('Error retrieving Assignments', response.data);
+                    setAssignments([]);
+                }
             } catch (error) {
                 console.log('Errors retrieving Assignments', error);
-            } finally {
-                setFetching(false);
             }
         };
         //For rendering when teacher add/ removes assignments
         fetchAssignments();
-    }, [userId, courseId, fetching]);
+    }, [userId, courseId]);
 
     return (
         <>
             <div>
                 <h1 className="title">Assignments</h1>
                 <div className="assignment-container">
-                    {assignments.map((assignment, index) => {
+                    {assignments?.map((assignment, index) => {
                         return (
                             <div key={index} className="assignment-card">
                                 <h3>Assignment Name: {assignment.assignmentName}

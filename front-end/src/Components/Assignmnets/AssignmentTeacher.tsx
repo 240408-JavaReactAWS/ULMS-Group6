@@ -18,7 +18,13 @@ export default function AssignmentTeacher() {
     useEffect(() => {
         axios.get(`http://localhost:8080/courses/${courseId}/assignments`).then(response => {
             // console.log(response.data);
-            setAssignments(response.data);
+            
+            if(Array.isArray(response.data)){
+                setAssignments(response.data);
+            }else{
+                console.error('Error retrieving Assignments', response.data);
+                setAssignments([]);
+            }
         }).catch(error => {
             console.log('Errors retriving Assignments', error);
         });
@@ -97,7 +103,7 @@ export default function AssignmentTeacher() {
             </div>
             <div>
                 {
-                    assignments.map((assignment: Assignment, index: number) => (
+                    assignments?.map((assignment: Assignment, index: number) => (
                         <div key={index} className="assignment-block">
                             <h2>Assignment: {assignment.assignmentName}</h2>
                             <p>Due Date: {assignment.deadline}</p>

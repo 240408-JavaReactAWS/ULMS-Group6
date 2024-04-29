@@ -3,6 +3,7 @@ import axios from 'axios';
 import User from "../../interfaces/UserInterface";
 import UserForm from "../../interfaces/UserFormInterface";
 import Role from "../../interfaces/RoleInterface";
+import './UserList.css';
 
 function UserList() {
   const [users, setUsers] = useState<User[]>([]);
@@ -54,10 +55,11 @@ const deleteUser = (userId : number) => {
 
   return (
     <>
-      <button onClick={handleShow}>Add User</button>
+      <h2>User List</h2>
+      <button className= "add-user-botton" onClick={handleShow}>Add User</button>
 
       {show && (
-        <div>
+        <div className ="add-user-form">
           <h2>Add User</h2>
           <form onSubmit={addUser}>
             <label>
@@ -80,40 +82,41 @@ const deleteUser = (userId : number) => {
                 <option value="ADMIN">ADMIN</option>
               </select>
             </label>
-            <button type="submit">Submit</button>
+            <button className="submit-button" type="submit">Submit</button>
           </form>
           <button onClick={handleClose}>Close</button>
         </div>
       )}
-
-<table>
-      <thead>
-        <tr>
-          <th>UserId</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Role</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((user : User) => (
-          <tr key={user.userId}>
-            <td>{user.userId}</td>
-            <td>{user.username}</td>
-            <td>{user.password}</td>
-            <td>{user.firstName}</td>
-            <td>{user.lastName}</td>
-            <td>{user.role}</td>
-            <td>
-              <button onClick={() => deleteUser(user.userId)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+      <div className="user-table">
+        <table>
+          <thead>
+            <tr>
+              <th>UserId</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user : User) => (
+              <tr key={user.userId}>
+                <td>{user.userId}</td>
+                <td>{user.username}</td>
+                <td>{user.password}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button onClick={() => deleteUser(user.userId)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

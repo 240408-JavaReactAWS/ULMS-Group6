@@ -34,7 +34,7 @@ public class AssignmentsController {
     public ResponseEntity<List<Assignments>> getAssignments(@PathVariable Integer courseId) {
         List<Assignments> assignments = assignmentsService.getAllAssignmentsByCourseId(courseId);
         if(assignments.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(assignments,HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(assignments, HttpStatus.OK);
     }

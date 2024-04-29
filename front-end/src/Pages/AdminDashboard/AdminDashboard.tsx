@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import CourseList from "../CourseList/CourseList";
 import './AdminDashboard.css';
-import AdminNav from "../../Components/AdminNav/AdminNav";
 import UserList from "../UserList/UserList";
 
 function AdminDashboard() {
@@ -40,22 +39,18 @@ function AdminDashboard() {
 
     return (
         <>
-        
           <div className="dashboard-header">
-            <div className = "title-container"> 
               <h1> Admin Dashboard</h1>
               <h2> Welcome, {curUser?.username}</h2>
+          </div>
+          <div className="content-box">
+            <div className="tab-buttons">
+              <button onClick={() => setSelectedTab('userlist')} className="tab-button">User List</button>
+              <button onClick={() => setSelectedTab('courselist')} className="tab-button">Course List</button>
             </div>
+            {selectedTab === 'userlist' && <UserList />}
+            {selectedTab === 'courselist' && <CourseList />}
           </div>
-          <div className="course-page">
-          <div className="tab-buttons">
-            <button onClick={() => setSelectedTab('userlist')} className="tab-button">User List</button>
-            <button onClick={() => setSelectedTab('courselist')} className="tab-button">Course List</button>
-          </div>
-          </div>
-          {selectedTab === 'userlist' && <UserList />}
-          {selectedTab === 'courselist' && <CourseList />}
-         
         </>
     )
 }

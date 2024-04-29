@@ -2,6 +2,7 @@ import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import User from '../../interfaces/UserInterface';
+import './CourseManage.css';
 
 function CourseManage() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -58,36 +59,38 @@ function CourseManage() {
   };
 
   return (
-    <div>
+    <div className="course-manage">
       <h1>Course Manage</h1>
       {teacher ? (
-        <div>{teacher.firstName} {teacher.lastName}</div>
+        <div className="teacher-info"><strong>Teacher Name:</strong> {teacher.firstName} {teacher.lastName}</div>
       ) : (
-        <form onSubmit={assignTeacher}>
+        <form className="assign-teacher-form" onSubmit={assignTeacher}>
           <input type="text" value={teacherId} onChange={e => setTeacherId(Number(e.target.value))} />
           <button type="submit">Assign Teacher</button>
         </form>
       )}
-      <button onClick={() => setShowAddStudentForm(!showAddStudentForm)}>
+      <button className="toggle-student-form-button" onClick={() => setShowAddStudentForm(!showAddStudentForm)}>
         {showAddStudentForm ? 'Hide Add Student Form' : 'Show Add Student Form'}
       </button>
       {showAddStudentForm && (
-        <form onSubmit={assignStudent}>
+        <form className="assign-student-form" onSubmit={assignStudent}>
           <input type="text" value={studentId} onChange={e => setStudentId(Number(e.target.value))} />
           <button type="submit">Add Student</button>
         </form>
       )}
-      <table>
-        <thead>
-            <tr>
-            <th>Student ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-            <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+
+      <div className="student-table">
+        <table>
+          <thead>
+              <tr>
+              <th>Student ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
+              <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
             {students.map((student, index) => (
               <tr key={student.userId}>
                 <td>{student.userId}</td>
@@ -97,8 +100,9 @@ function CourseManage() {
                 <td><button onClick={() => deleteStudent(student.userId)}>Delete</button></td>
               </tr>
             ))}
-        </tbody>
+          </tbody>
         </table>
+      </div>
     </div>
   );
 }

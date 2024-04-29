@@ -3,7 +3,7 @@ import axios from 'axios';
 import Course from "../../interfaces/CourseInterface";
 import CourseForm from "../../interfaces/CourseFormInterface";
 import { Link } from 'react-router-dom';
-
+import './CourseList.css';
 
 function CourseList() {
     const [courses, setCourses] = useState<Course[]>([]);
@@ -50,12 +50,14 @@ function CourseList() {
             console.error('There was an error!', error);
           });
       };
+
   return (
-    <div>
-      <h3>Course List</h3>
-      <button onClick={handleShow}>Add Course</button>
+    
+    <div className ="coures-list">
+      <h2>Course List</h2>
+      <button className="add-course-button" onClick={handleShow}>Add Course</button>
       {show && (
-        <form onSubmit={addCourse}>
+        <form className="add-course-form" onSubmit={addCourse}>
         <h2>Add Course</h2>
         <label> 
           Course Name
@@ -68,31 +70,35 @@ function CourseList() {
         <button type="submit">Add Course</button>
       </form>
       )}
-      <table>
-        <thead>
-          <tr>
-            <th>Course Id</th>
-            <th>Course Name</th>
-            <th>Capacity</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courses.map((course : Course) => (
-            <tr key={course.courseId}>
-              <td>{course.courseId}</td>
-              <td>{course.courseName}</td>
-              <td>{course.courseCapacity}</td>
-              <td>
-                <Link to={`/manage-course/${course.courseId}`}>Manage</Link>
-              </td>
-              <td>
-              <button onClick={() => deleteCourse(course.courseId)}>Delete</button>
-            </td>
+
+      <div className="course-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Course Id</th>
+              <th>Course Name</th>
+              <th>Capacity</th>
+              <th>Actions</th>
+              <th>Delete</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {courses.map((course : Course) => (
+              <tr key={course.courseId}>
+                <td>{course.courseId}</td>
+                <td>{course.courseName}</td>
+                <td>{course.courseCapacity}</td>
+                <td>
+                  <Link to={`/manage-course/${course.courseId}`}>Manage</Link>
+                </td>
+                <td>
+                <button onClick={() => deleteCourse(course.courseId)}>Delete</button>
+              </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

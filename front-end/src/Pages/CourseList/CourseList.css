@@ -1,0 +1,64 @@
+.course-list {
+    margin: 20px;
+}
+
+.add-course-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-course-button:hover {
+    background-color: #388E3C;
+}
+
+.add-course-form {
+    margin-bottom: 20px;
+}
+
+.add-course-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-course-form label {
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    align-self: flex-start;
+    width: auto;
+    padding: 10px 20px;
+    margin: 10px 0;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #388E3C; /* Dark Green background on hover */
+}
+
+.course-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.course-table th, .course-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    align-items: center;
+}
+
+.course-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.course-table tr:hover {
+    background-color: #ddd;
+}

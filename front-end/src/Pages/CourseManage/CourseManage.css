@@ -1,0 +1,48 @@
+.course-manage {
+    margin: 20px;
+}
+
+.teacher-info {
+    margin-bottom: 20px;
+}
+
+.assign-teacher-form, .assign-student-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 50%;
+}
+
+.assign-teacher-button, .add-student-button, .toggle-student-form-button {
+    align-self: flex-start;
+    width: auto;
+    padding: 10px 20px;
+    margin: 10px 0;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.assign-teacher-button:hover, .add-student-button:hover, .toggle-student-form-button:hover {
+    background-color: #388E3C; /* Dark Green background on hover */
+}
+
+.student-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.student-table th, .student-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.student-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.student-table tr:hover {
+    background-color: #ddd;
+}
