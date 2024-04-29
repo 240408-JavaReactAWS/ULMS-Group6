@@ -1,13 +1,14 @@
 import React, { SyntheticEvent, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 function Login() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
-    localStorage.clear();
+    
 
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -33,19 +34,37 @@ function Login() {
                 localStorage.clear();
             }
         } catch (error: any) {
-            setError('Something went wrong. Please try again.');
+            if (error.response) {
+                // The server returned an error response
+                setError(`Login failed. Please check your username and password.`);
+            } else if (error.request) {
+                // The request was made but no response was received
+                setError('Login failed. The server did not respond.');
+            } else {
+                // Something else happened while setting up the request
+                setError('Something went wrong. Please try again.');
+            }
+
             localStorage.clear();
+
         }
     }
 
     return (
-        <form onSubmit={submit}>
-            <h1>Login</h1>
-            {error && <h5 style={{ color: 'red' }}>{error}</h5> }
-            <input type="text" required placeholder="Username" onChange={e => setUsername(e.target.value)} />
-            <input type="password" required placeholder="Password" onChange={e => setPassword(e.target.value)} />
-            <button type="submit">Login</button>
-        </form>
+        <>
+            <div className="login-container"> 
+                <div className="logo-container">
+                    <h2>Welcome to Unified Learning Management System</h2>
+                </div>
+                <form className = "login-form" onSubmit={submit}>
+                    <h1>Login</h1>
+                    {error && <h5 style={{ color: 'Blue', background:"orange" }}>{error}</h5> }
+                    <input type="text" required placeholder="Username" onChange={e => setUsername(e.target.value)} />
+                    <input type="password" required placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </> 
     );
 }
 

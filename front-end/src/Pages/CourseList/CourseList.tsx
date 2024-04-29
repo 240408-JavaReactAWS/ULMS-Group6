@@ -52,7 +52,7 @@ function CourseList() {
       };
   return (
     <div>
-      <h1>Course List</h1>
+      <h3>Course List</h3>
       <button onClick={handleShow}>Add Course</button>
       {show && (
         <form onSubmit={addCourse}>

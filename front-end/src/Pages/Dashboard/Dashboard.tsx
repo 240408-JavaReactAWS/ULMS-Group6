@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import User from "../../Interfaces/UserInterface";
-import { cursorTo } from "readline";
 
 function Dashboard() {
     const [curUser, setCurrentUser] = useState<User | null>();
@@ -34,6 +33,10 @@ function Dashboard() {
         <>
             <h1> {curUser?.role === 'TEACHER'? 'Teacher Dashboard': 'Student Dashboard'}</h1>
             <h2> Welcome, {curUser?.username}</h2>
+            <button onClick={() => {
+                localStorage.clear();
+                navigate('/login');
+            }}>Logout</button>
         </>
     )
 }

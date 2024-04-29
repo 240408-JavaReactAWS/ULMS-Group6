@@ -15,13 +15,14 @@ import Announcements from './Components/Announcements/Announcements';
 import NewAnnouncementForm from './Components/Announcements/NewAnnouncementForm';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
+import Home from './Pages/Home/Home';
 
 function App() {
   return (
     <BrowserRouter>
     <Nav></Nav>
       <Routes>
-        <Route path="/" element={<Login/>} />
+        <Route path="/" element={<Home />} />
         <Route path="/assignmentsTeacher" element={<AssignmentTeacher />}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -30,10 +31,10 @@ function App() {
         <Route path="/courses/:courseId/announcements" element={<Announcements/>} />
         <Route path="/courses/:courseId/announcements/new-announcement" element={<NewAnnouncementForm/>} />
         <Route path="/GradesStudent" element={<GradesContainer />} />
-          <Route path="/GradesTeacher" element={<TeacherGrades />} />
-          <Route path="/UserList" element={<UserList />} />
-          <Route path="/CourseList" element={<CourseList />} />
-          <Route path="/manage-course/:courseId" element={<CourseManage />} />
+        <Route path="/GradesTeacher" element={<TeacherGrades />} />
+        <Route path="/UserList" element={<UserList />} />
+        <Route path="/CourseList" element={<CourseList />} />
+        <Route path="/manage-course/:courseId" element={<CourseManage />} />
       </Routes>
     </BrowserRouter>
   );

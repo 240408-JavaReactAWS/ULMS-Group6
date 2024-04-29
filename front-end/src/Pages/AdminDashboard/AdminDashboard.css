@@ -1,0 +1,19 @@
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+  
+.title-container {
+    text-align: left;
+}
+  
+.logout-button {
+    margin-left: auto;
+}
+  
+.course-list-container {
+    text-align: left;
+    margin: 20px;
+}
