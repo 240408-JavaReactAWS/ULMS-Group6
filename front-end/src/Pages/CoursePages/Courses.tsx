@@ -3,13 +3,17 @@ import GradesContainer from '../../Components/GradesContainer/GradesContainer'
 import Assignments from '../../Components/Assignmnets/Assignments';
 import axios from 'axios';
 import './CoursePages.css'
+import { useParams } from 'react-router-dom';
 
 interface Announcement {
     message: string;
     date: any;
   }
 
-export default function Courses({ courseId }: { courseId: number }) {
+
+
+export default function Courses() {
+  const courseId = useParams<{ courseId: string }>().courseId;
   const [selectedTab, setSelectedTab] = useState('announcements');
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
@@ -54,8 +58,8 @@ export default function Courses({ courseId }: { courseId: number }) {
           ))}
         </div>
       )}
-      {selectedTab === 'assignments' && <Assignments userId={5} courseId={2} />}
-      {selectedTab === 'grades' && <GradesContainer courseId={2} userId={5} />}
+      {selectedTab === 'assignments' && <Assignments />}
+      {selectedTab === 'grades' && <GradesContainer />}
     </div>
     </div>
   );

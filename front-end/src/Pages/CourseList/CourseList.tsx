@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import Course from "../../Interfaces/CourseInterface";
-import CourseForm from "../../Interfaces/CourseFormInterface";
+import Course from "../../interfaces/CourseInterface";
+import CourseForm from "../../interfaces/CourseFormInterface";
 import { Link } from 'react-router-dom';
 
 

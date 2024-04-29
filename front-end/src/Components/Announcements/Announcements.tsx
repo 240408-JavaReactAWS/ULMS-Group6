@@ -10,11 +10,6 @@ interface Announcement {
     date: any;
 }
 
-interface RouteParams {
-    courseId: string;
-    [key: string]: string | undefined;
-}
-
 // function username from local storage
 function getUserRole() {
     let userRole = localStorage.getItem("userRole");
@@ -25,7 +20,7 @@ function getUserRole() {
 }
 
 function Announcements() {
-    const { courseId } = useParams<RouteParams>();
+    const { courseId } = useParams<{courseId: string}>();
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     const navigate = useNavigate();
     const userRole = getUserRole();
