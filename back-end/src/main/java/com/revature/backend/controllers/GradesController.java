@@ -68,6 +68,18 @@ public class GradesController {
     }
 
     /**
+     * Handles the GET request to retrieve all grades for a user in a course.
+     * @param courseId the ID of the course
+     * @param userId the ID of the user
+     * @return a ResponseEntity containing a list of grades for the user in the course
+     */
+    @GetMapping("course/{userId}")
+    public ResponseEntity<List<Grades>> getGradesForUserInCourse(@PathVariable("courseId") Integer courseId, @PathVariable("userId") Integer userId) {
+        List<Grades> userGrades = gradesService.getGradesForUserInCourse(courseId, userId);
+        return ResponseEntity.ok(userGrades);
+    }
+
+    /**
      * Handles the GET request to retrieve a grade for a specific student and assignment.
      * @param assignmentId the ID of the assignment
      * @param userId the ID of the student

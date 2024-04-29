@@ -25,7 +25,7 @@ function GradesContainer() {
     const userId = localStorage.getItem('userId');
     useEffect(() => {
         // Make API call to fetch grades
-        axios.get(`http://localhost:8080/${courseID}/grades/${userId}`)
+        axios.get(`http://localhost:8080/${courseID}/grades/course/${userId}`)
             .then(response => {
                 setGrades(response.data);
             })

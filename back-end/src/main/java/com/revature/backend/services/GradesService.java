@@ -149,4 +149,22 @@ public class GradesService {
         }
         return assignedGrades;
     }
+
+    /**
+     * Retrieves all grades for a specific user in a course.
+     * @param courseId the ID of the course
+     * @param userId the ID of the user
+     * @return a list of grades for the specified user in the course
+     */
+    public List<Grades> getGradesForUserInCourse(Integer courseId, Integer userId) {
+        List<Assignments> assignments = assignmentsDAO.findByCourse_CourseId(courseId);
+        List<Grades> userGrades = new ArrayList<>();
+        for (Assignments assignment : assignments) {
+            Grades grade = gradesDAO.findByAssignmentAssignmentsIdAndUserUserId(assignment.getAssignmentsId(), userId);
+            if (grade != null) {
+                userGrades.add(grade);
+            }
+        }
+        return userGrades;
+    }
 }
