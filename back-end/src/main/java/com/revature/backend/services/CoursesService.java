@@ -9,6 +9,7 @@ import com.revature.backend.repos.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -177,8 +178,5 @@ public class CoursesService {
         course.getStudents().remove(student);
         coursesDAO.save(course);
     }
-<<<<<<< Updated upstream
+
 }
-=======
-}
->>>>>>> Stashed changes

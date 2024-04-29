@@ -1,21 +1,16 @@
 package com.revature.backend.services;
 
-<<<<<<< Updated upstream
-
-=======
 import com.revature.backend.exceptions.NoSuchAnnouncementFoundException;
 import com.revature.backend.exceptions.NoSuchCourseException;
->>>>>>> Stashed changes
 import com.revature.backend.models.Announcements;
 import com.revature.backend.models.Courses;
-import com.revature.backend.models.Users;
 import com.revature.backend.repos.AnnouncementsDAO;
 import com.revature.backend.repos.CoursesDAO;
-import com.revature.backend.repos.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This service class handles the business logic related to announcements.
@@ -37,12 +32,6 @@ public class AnnouncementsService {
         this.coursesDAO = coursesDAO;
     }
 
-<<<<<<< Updated upstream
-    public Announcements createAnnouncement(Integer courseId, Announcements announcement) {
-        Courses course = coursesDAO.findById(courseId)
-                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
-
-=======
     /**
      * Creates an announcement for a specific course.
      * @param courseId the ID of the course
@@ -53,35 +42,28 @@ public class AnnouncementsService {
     public Announcements createAnnouncement(Integer courseId, Announcements announcement) throws NoSuchCourseException{
         Courses course = coursesDAO.findById(courseId)
                 .orElseThrow(() -> new NoSuchCourseException("No course found with ID: " + courseId));
->>>>>>> Stashed changes
         announcement.setCourse(course);
         return announcementsDAO.save(announcement);
     }
 
-<<<<<<< Updated upstream
-    public void deleteAnnouncement(Integer announcementId) {
-=======
+
     /**
      * Deletes an announcement by its ID.
      * @param announcementId the ID of the announcement to be deleted
      * @return the deleted announcement
      * @throws NoSuchAnnouncementFoundException if no announcement is found with the specified ID
      */
+
     public Announcements deleteAnnouncement(Integer announcementId) throws NoSuchAnnouncementFoundException {
         Optional<Announcements> announcement = announcementsDAO.findById(announcementId);
         if(announcement.isEmpty()){
             throw new NoSuchAnnouncementFoundException("No announcement found with ID: " + announcementId);
         }
->>>>>>> Stashed changes
         announcementsDAO.deleteById(announcementId);
+        return announcement.get();
     }
 
-<<<<<<< Updated upstream
-    public List<Announcements> getAllAnnouncementsByCourseId(Integer courseId){
-        return announcementsDAO.findByCourse_CourseId(courseId);
-    }
-}
-=======
+
     /**
      * Retrieves all announcements for a specific course.
      * @param courseId the ID of the course
@@ -102,4 +84,4 @@ public class AnnouncementsService {
                 .orElseThrow(() -> new NoSuchAnnouncementFoundException("No announcement found with ID: " + announcementId));
     }
 }
->>>>>>> Stashed changes
+

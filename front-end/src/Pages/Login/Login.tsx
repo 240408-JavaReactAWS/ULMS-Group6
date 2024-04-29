@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export interface IUser {
     userId: number;
@@ -10,40 +11,51 @@ export interface IUser {
 
 function Login(){
 
+    const nav = useNavigate();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [currentUser, setCurrentUser] = useState<IUser>();
 
-    let updateUsername = (e: any) => {
-        setUsername((e.target as HTMLInputElement).value);
+    let updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUsername(e.target.value);
     }
 
-    let updatePassword = (e: any) => {
-        setPassword((e.target as HTMLInputElement).value);
+    let updatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
     }
 
     let login = async() => {
-        let res = await axios.post('http://localhost:8080/users/login', {username, password})
-            .then((response:any) => {
-                localStorage.setItem("username", response.data.username)
-                return response.data;})
-                .catch( (error:any) => {
-                    localStorage.removeItem("username")
-                    console.error(error)
-                }
+        try {
+            let res = await axios.post('http://localhost:8080/users/login/', {
+                username: username,
+                password: password },
             );
 
-        setCurrentUser(res);
+            console.log(res.data);
+            if(res.status === 200){
+                nav('/dashboard');
+            } 
+
+    } catch (error) {
+        alert("Error Detected");
+        console.error(error);
     }
+}
+
+let FormSubmission = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    await login();
+}
+
 
     return (
         <main>
             <h1>Login</h1>
-            <form>
+            <form onSubmit={FormSubmission}>
                 <label htmlFor="username">Username:</label>
-                <input type="text" id="username" name="username" required />
+                <input type="text" onChange={updateUsername} id="username" name="username" required />
                 <label htmlFor="password">Password:</label>
-                <input type="password" id="password" name="password" required />
+                <input type="password" onChange={updatePassword} id="password" name="password" required />
                 <button type="submit">Login</button>
             </form>
         </main>

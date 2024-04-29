@@ -3,12 +3,9 @@ package com.revature.backend.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-<<<<<<< Updated upstream
 
-import java.util.Date;
-=======
 import java.time.LocalDate;
->>>>>>> Stashed changes
+import java.util.Date;
 
 /**
  * This class represents the Assignments entity in the database.
@@ -40,15 +37,14 @@ public class Assignments {
     @JsonIgnore
     private Courses course;
 
-<<<<<<< Updated upstream
-=======
     /**
      * The deadline of the assignment.
      */
->>>>>>> Stashed changes
+
+    //Added LocalDate
     @Column(name = "Deadline")
     @JsonFormat(pattern = "yyyy/MM/dd")
-    private Date deadline;
+    private LocalDate deadline;
 
     /**
      * Default constructor.
@@ -56,23 +52,16 @@ public class Assignments {
     public Assignments() {
     }
 
-<<<<<<< Updated upstream
-    public Assignments(String assignmentName, Date deadline) {
-=======
     /**
      * Constructor that initializes the name and deadline of the assignment.
      * @param assignmentName The name of the assignment.
      * @param deadline The deadline of the assignment.
      */
     public Assignments(String assignmentName, LocalDate deadline) {
->>>>>>> Stashed changes
         this.assignmentName = assignmentName;
         this.deadline = deadline;
     }
 
-<<<<<<< Updated upstream
-    public Assignments(String assignmentName, Courses course, Date deadline) {
-=======
     /**
      * Constructor that initializes the name, course, and deadline of the assignment.
      * @param assignmentName The name of the assignment.
@@ -80,7 +69,6 @@ public class Assignments {
      * @param deadline The deadline of the assignment.
      */
     public Assignments(String assignmentName, Courses course, LocalDate deadline) {
->>>>>>> Stashed changes
         this.assignmentName = assignmentName;
         this.course = course;
         this.deadline = deadline;
@@ -122,12 +110,6 @@ public class Assignments {
      */
     public void setCourse(Courses course) { this.course = course; }
 
-<<<<<<< Updated upstream
-    public Date getDeadline() { return deadline; }
-
-    public void setDeadline(Date deadline) { this.deadline = deadline; }
-}
-=======
     /**
      * Returns the deadline of the assignment.
      * @return The deadline of the assignment.
@@ -139,5 +121,4 @@ public class Assignments {
      * @param deadline The deadline of the assignment.
      */
     public void setDeadline(LocalDate deadline) { this.deadline = deadline; }
-}
->>>>>>> Stashed changes
+
