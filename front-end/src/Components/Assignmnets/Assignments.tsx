@@ -4,6 +4,7 @@ import { error } from 'console';
 import './Assignments.css';
 import Assignment from '../../interfaces/AssignmentInterface';
 
+
 interface AssignmentsProps {
     userId: number,
     courseId: number

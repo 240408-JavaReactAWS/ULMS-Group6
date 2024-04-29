@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import User from '../../Interfaces/UserInterface';
+import User from '../../interfaces/UserInterface';
 
 function CourseManage() {
   const { courseId } = useParams<{ courseId: string }>();
