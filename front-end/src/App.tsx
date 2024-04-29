@@ -28,15 +28,15 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/adminDashboard" element={<AdminDashboard />} />
-        <Route path="/assignments" element={<Assignments userId={5} courseId={2}/>} /> 
+        <Route path="/courses/:courseId/assignments" element={<Assignments/>} /> 
         <Route path="/courses/:courseId/announcements" element={<Announcements/>} />
         <Route path="/courses/:courseId/announcements/new-announcement" element={<NewAnnouncementForm/>} />
-        <Route path="/GradesStudent" element={<GradesContainer courseId={5} userId={2} />} />
-        <Route path="/GradesTeacher" element={<TeacherGrades />} />
+        <Route path="/courses/:courseId/GradesStudent" element={<GradesContainer />} />
+        <Route path="/courses/:courseId/grades/GradesTeacher" element={<TeacherGrades />} />
         <Route path="/UserList" element={<UserList />} />
         <Route path="/CourseList" element={<CourseList />} />
         <Route path="/manage-course/:courseId" element={<CourseManage />} />
-        <Route path="/courses/:courseId" element={<Courses courseId={2} />} />
+        <Route path="/courses/:courseId" element={<Courses />} />
       </Routes>
     </BrowserRouter>
   );
