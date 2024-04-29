@@ -18,7 +18,21 @@ function Dashboard() {
                     const response = await axios('http://localhost:8080/users/' + userId);
                     if (response.status === 200) {
                         const user = await response.data;
+                        console.log(user);
                         setCurrentUser(user);
+                        if (user.role === 'STUDENT') {
+                            const response = await axios('http://localhost:8080/users/' + userId + '/courses');
+                            if (response.status === 200) {
+                                const courses = response.data; // Use the 'data' property instead of calling 'json()'
+                                setCourses(courses);
+                            }
+                        } else if (user.role === 'TEACHER') {
+                            const response = await axios('http://localhost:8080/users/' + userId + '/taught'); // modify for teacher get mapping
+                            if (response.status === 200) {
+                                const courses = response.data; // Use the 'data' property instead of calling 'json()'
+                                setCourses(courses);
+                            }
+                        }
                     } else {
                         navigate('/login');
                     }
@@ -33,18 +47,19 @@ function Dashboard() {
         asyncCall();
     },[]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         let asyncCall = async () => {
             try {
                 let userId = localStorage.getItem("userId");
+                console.log(userId, curUser?.role);
                 if (userId && curUser?.role === 'STUDENT') {
                     const response = await axios('http://localhost:8080/users/' + userId + '/courses');
                     if (response.status === 200) {
                         const courses = response.data; // Use the 'data' property instead of calling 'json()'
                         setCourses(courses);
                     }
-                } else {
-                    const response = await axios('http://localhost:8080/users/' + userId + '/courses'); // modify for teacher get mapping
+                } else if (userId && curUser?.role === 'TEACHER') {
+                    const response = await axios('http://localhost:8080/users/' + userId + '/taught'); // modify for teacher get mapping
                     if (response.status === 200) {
                         const courses = response.data; // Use the 'data' property instead of calling 'json()'
                         setCourses(courses);
@@ -55,7 +70,7 @@ function Dashboard() {
             }
         } 
         asyncCall();
-    },[]);
+    },[]);*/
 
     return (
         <> 
