@@ -4,6 +4,9 @@ import Assignments from '../../Components/Assignmnets/Assignments';
 import axios from 'axios';
 import './CoursePages.css'
 import { useParams } from 'react-router-dom';
+import AssignmentTeacher from '../../Components/Assignmnets/AssignmentTeacher';
+import TeacerGrades from '../../Components/TeacherGrades/TeacherGrades';
+import Announcements from '../../Components/Announcements/Announcements';
 
 interface Announcement {
     message: string;
@@ -48,7 +51,7 @@ export default function Courses() {
         <button onClick={() => setSelectedTab('grades')} className="tab-button">Grades</button>
       </div>
       <div className="content"> 
-      {selectedTab === 'announcements' && (
+      {/* {selectedTab === 'announcements' && (
         <div className="announcement-list">
           {announcements.map((announcement, index) => (
             <div key={index} className="announcement-card">
@@ -57,9 +60,10 @@ export default function Courses() {
             </div>
           ))}
         </div>
-      )}
-      {selectedTab === 'assignments' && <Assignments />}
-      {selectedTab === 'grades' && <GradesContainer />}
+      )} */}
+      {selectedTab === 'announcements' && <Announcements />}
+      {selectedTab === 'assignments' && (localStorage.getItem('role') === 'TEACHER' ? <AssignmentTeacher /> : <Assignments/>)}
+      {selectedTab === 'grades' && (localStorage.getItem('role') === 'TEACHER' ? <TeacerGrades /> : <GradesContainer/>)}
     </div>
     </div>
   );

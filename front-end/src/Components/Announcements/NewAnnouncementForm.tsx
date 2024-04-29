@@ -32,7 +32,7 @@ function NewAnnouncementForm() {
                 'Content-Type': 'application/json'
             }
         });
-        navigate(`/courses/${courseId}/announcements`)
+        navigate(`/courses/${courseId}`)
         }catch(error){
             console.error("Error adding new announcement",error);
         }
