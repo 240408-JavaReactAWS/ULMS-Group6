@@ -81,9 +81,9 @@ public class UsersService {
      * @param user the user to be logged in
      * @return true if the login credentials are correct, false otherwise
      */
-    public boolean login (Users user) {
+    public Users login (Users user) {
         Optional<Users> existingUser = usersDAO.findByUsername(user.getUsername());
-        return existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword());
+        return (existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword())? existingUser.get() : null);
     }
 
     /**

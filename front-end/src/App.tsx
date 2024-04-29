@@ -14,6 +14,7 @@ import AssignmentTeacher from './Components/Assignmnets/AssignmentTeacher';
 import Announcements from './Components/Announcements/Announcements';
 import NewAnnouncementForm from './Components/Announcements/NewAnnouncementForm';
 import Dashboard from './Pages/Dashboard/Dashboard';
+import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/assignmentsTeacher" element={<AssignmentTeacher />}/>
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
         <Route path="/assignments" element={<Assignments userId={2} courseId={1}/>} /> 
         <Route path="/courses/:courseId/announcements" element={<Announcements/>} />
         <Route path="/courses/:courseId/announcements/new-announcement" element={<NewAnnouncementForm/>} />

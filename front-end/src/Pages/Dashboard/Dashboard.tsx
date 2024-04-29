@@ -1,49 +1,39 @@
 import React, {useEffect, useState} from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import User from "../../Interfaces/UserInterface";
+import { cursorTo } from "readline";
 
 function Dashboard() {
-    const [curUser, setCurrentUser] = useState<any>();
-    
+    const [curUser, setCurrentUser] = useState<User | null>();
+    const navigate = useNavigate();
+
     useEffect(() => {
-        if(!localStorage.getItem("username")){
-            return;
-        }
-
-
-        let username = (localStorage.getItem("username") ? localStorage.getItem("username") as string : "");
-
         let asyncCall = async () => {
-            let res = await fetch('http://localhost:8080/users/' + username)
-                .then(response => response.json())
-                .then(data => setCurrentUser(data))
-                .catch(error => {
-                    alert("Error Detected");
-                    console.error(error)
-                });
+            try {
+                let userId = localStorage.getItem("userId");
+                if (userId) {
+                    const response = await fetch('http://localhost:8080/users/' + userId);
+                    if (response.ok) {
+                        const user = await response.json();
+                        setCurrentUser(user);
+                    } else {
+                        navigate('/login');
+                    }
+                } else {
+                    navigate('/login');
+                }
+            } catch (error) {
+                console.error(error);
+            }
         }
 
         asyncCall();
-    },[])
+    },[]);
 
     return (
         <>
-            {(localStorage.getItem("username")) ? 
-                <>
-                    { 
-                        curUser.map((user : any) => { //map courses related to current user
-                           return (
-                           <div>
-                                <h1>Welcome {user.username}</h1> 
-                                // display courses here
-                                
-                           </div> 
-                        )})
-                    }
-                    
-                </>
-            : 
-            <Navigate to="/login" />
-            }
+            <h1> {curUser?.role === 'TEACHER'? 'Teacher Dashboard': 'Student Dashboard'}</h1>
+            <h2> Welcome, {curUser?.username}</h2>
         </>
     )
 }

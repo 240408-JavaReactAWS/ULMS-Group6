@@ -1,4 +1,6 @@
+
 import Role from './RoleInterface';
+
 interface UserForm {
     firstName: string;
     lastName: string;

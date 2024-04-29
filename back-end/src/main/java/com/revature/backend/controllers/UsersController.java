@@ -118,11 +118,11 @@ public class UsersController {
      * @return a ResponseEntity with an OK status and a success message if the operation is successful, or an unauthorized status and an error message if the operation is not successful
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Users user) {
-        if(usersService.login(user)) {
-            return ResponseEntity.ok().body("Login Success!");
+    public ResponseEntity<Users> login(@RequestBody Users user) {
+        if(usersService.login(user) != null) {
+            return ResponseEntity.ok(usersService.login(user));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     /**
