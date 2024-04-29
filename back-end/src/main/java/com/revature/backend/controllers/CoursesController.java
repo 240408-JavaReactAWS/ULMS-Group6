@@ -193,10 +193,5 @@ public class CoursesController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-<<<<<<< Updated upstream
-
 
 }
-=======
-}
->>>>>>> Stashed changes

@@ -54,8 +54,9 @@ public class Assignments {
 
     /**
      * Constructor that initializes the name and deadline of the assignment.
+     *
      * @param assignmentName The name of the assignment.
-     * @param deadline The deadline of the assignment.
+     * @param deadline       The deadline of the assignment.
      */
     public Assignments(String assignmentName, LocalDate deadline) {
         this.assignmentName = assignmentName;
@@ -64,9 +65,10 @@ public class Assignments {
 
     /**
      * Constructor that initializes the name, course, and deadline of the assignment.
+     *
      * @param assignmentName The name of the assignment.
-     * @param course The course associated with the assignment.
-     * @param deadline The deadline of the assignment.
+     * @param course         The course associated with the assignment.
+     * @param deadline       The deadline of the assignment.
      */
     public Assignments(String assignmentName, Courses course, LocalDate deadline) {
         this.assignmentName = assignmentName;
@@ -76,49 +78,74 @@ public class Assignments {
 
     /**
      * Returns the ID of the assignment.
+     *
      * @return The ID of the assignment.
      */
-    public Integer getAssignmentsId() { return assignmentsId; }
+    public Integer getAssignmentsId() {
+        return assignmentsId;
+    }
 
     /**
      * Sets the ID of the assignment.
+     *
      * @param assignmentsId The ID of the assignment.
      */
-    public void setAssignmentsId(Integer assignmentsId) { this.assignmentsId = assignmentsId; }
+    public void setAssignmentsId(Integer assignmentsId) {
+        this.assignmentsId = assignmentsId;
+    }
 
     /**
      * Returns the name of the assignment.
+     *
      * @return The name of the assignment.
      */
-    public String getAssignmentName() { return assignmentName; }
+    public String getAssignmentName() {
+        return assignmentName;
+    }
 
     /**
      * Sets the name of the assignment.
+     *
      * @param assignmentName The name of the assignment.
      */
-    public void setAssignmentName(String assignmentName) { this.assignmentName = assignmentName; }
+    public void setAssignmentName(String assignmentName) {
+        this.assignmentName = assignmentName;
+    }
 
     /**
      * Returns the course associated with the assignment.
+     *
      * @return The course associated with the assignment.
      */
-    public Courses getCourse() { return course; }
+    public Courses getCourse() {
+        return course;
+    }
 
     /**
      * Sets the course associated with the assignment.
+     *
      * @param course The course associated with the assignment.
      */
-    public void setCourse(Courses course) { this.course = course; }
+    public void setCourse(Courses course) {
+        this.course = course;
+    }
 
     /**
      * Returns the deadline of the assignment.
+     *
      * @return The deadline of the assignment.
      */
-    public LocalDate getDeadline() { return deadline; }
+    public LocalDate getDeadline() {
+        return deadline;
+    }
 
     /**
      * Sets the deadline of the assignment.
+     *
      * @param deadline The deadline of the assignment.
      */
-    public void setDeadline(LocalDate deadline) { this.deadline = deadline; }
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
 
+}
