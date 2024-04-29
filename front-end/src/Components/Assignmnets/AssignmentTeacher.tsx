@@ -1,7 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import axios from 'axios';
-import Assignment from '../../interfaces/AssignmentInterface';
 import './Assignments.css';
+import Assignment from '../../interfaces/AssignmentInterface';
+
 
 interface AssignmentsProps {
     courseId: number
