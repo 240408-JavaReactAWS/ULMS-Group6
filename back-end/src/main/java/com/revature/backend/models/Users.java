@@ -1,8 +1,10 @@
 package com.revature.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "Users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Users {
 
     /**
@@ -56,14 +59,19 @@ public class Users {
     /**
      * The courses that the user is enrolled in.
      */
-    @ManyToMany(mappedBy = "students")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Courses> enrolledCourses;
+    private Set<CourseStudent> enrolledCourses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Grades> grades = new ArrayList<>();
+
 
     /**
      * The courses that the user is teaching.
      */
-    @OneToMany( mappedBy = "teacher")
+    @OneToMany( mappedBy = "teacher", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Courses> taughtCourses;
 
@@ -205,13 +213,13 @@ public class Users {
      * Returns the courses that the user is enrolled in.
      * @return The courses that the user is enrolled in.
      */
-    public Set<Courses> getEnrolledCourses() { return enrolledCourses; }
+    public Set<CourseStudent> getEnrolledCourses() { return enrolledCourses; }
 
     /**
      * Sets the courses that the user is enrolled in.
      * @param enrolledCourses The courses that the user is enrolled in.
      */
-    public void setEnrolledCourses(Set<Courses> enrolledCourses) { this.enrolledCourses = enrolledCourses; }
+    public void setEnrolledCourses(Set<CourseStudent> enrolledCourses) { this.enrolledCourses = enrolledCourses; }
 
     /**
      * Returns the courses that the user is teaching.

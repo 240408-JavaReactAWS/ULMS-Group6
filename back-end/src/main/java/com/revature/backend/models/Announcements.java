@@ -31,7 +31,7 @@ public class Announcements {
     /**
      * The course associated with the announcement.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     @JsonIgnore
     private Courses course;

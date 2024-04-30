@@ -1,18 +1,12 @@
 package com.revature.backend.services;
 
 import com.revature.backend.exceptions.*;
-import com.revature.backend.models.Courses;
-import com.revature.backend.models.Roles;
-import com.revature.backend.models.Users;
-import com.revature.backend.repos.CoursesDAO;
-import com.revature.backend.repos.UsersDAO;
+import com.revature.backend.models.*;
+import com.revature.backend.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Service class for handling operations related to Courses.
@@ -21,6 +15,9 @@ import java.util.Set;
 public class CoursesService {
     private CoursesDAO coursesDAO;
     private UsersDAO usersDAO;
+    private CourseStudentDAO CourseStudentDAO;
+    private AssignmentsDAO AssignmentsDAO;
+    private GradesDAO GradesDAO;
 
     /**
      * Constructs a CoursesService with the specified CoursesDAO and UsersDAO.
@@ -28,9 +25,12 @@ public class CoursesService {
      * @param usersDAO the DAO to manage users
      */
     @Autowired
-    public CoursesService(CoursesDAO coursesDAO, UsersDAO usersDAO) {
+    public CoursesService(CoursesDAO coursesDAO, UsersDAO usersDAO, CourseStudentDAO CourseStudentDAO, AssignmentsDAO AssignmentsDAO, GradesDAO GradesDAO) {
         this.coursesDAO = coursesDAO;
         this.usersDAO = usersDAO;
+        this.CourseStudentDAO = CourseStudentDAO;
+        this.AssignmentsDAO = AssignmentsDAO;
+        this.GradesDAO = GradesDAO;
     }
 
     /**
@@ -138,8 +138,15 @@ public class CoursesService {
             throw new CourseFullException("Course with id:"+ courseId + " is full");
         }
 
-        course.getStudents().add(student);
+        CourseStudent studentToAdd = new CourseStudent(course, student);
+        CourseStudentDAO.save(studentToAdd);
+        course.getStudents().add(studentToAdd);
         coursesDAO.save(course);
+        List<Assignments> assignment = AssignmentsDAO.findByCourse_CourseId(courseId);
+        for (Assignments a: assignment){
+            Grades grade = new Grades(null, a, student);
+            GradesDAO.save(grade);
+        }
         return Optional.of(student);
     }
 
@@ -151,7 +158,12 @@ public class CoursesService {
      */
     public Set<Users> getEnrolledStudents(Integer courseId) throws NoSuchCourseException {
         Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
-        return course.getStudents();
+        Set<CourseStudent> students = course.getStudents();
+        Set<Users> enrolledStudents = new HashSet<>();
+        for(CourseStudent student: students){
+            enrolledStudents.add(student.getStudent());
+        }
+        return enrolledStudents;
     }
 
     /**

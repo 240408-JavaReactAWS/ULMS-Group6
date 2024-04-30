@@ -30,7 +30,7 @@ public class Courses {
     /**
      * The teacher associated with the course.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     @JsonIgnore
     private Users teacher;
@@ -38,14 +38,9 @@ public class Courses {
     /**
      * The students enrolled in the course.
      */
-    @ManyToMany
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     @JsonIgnore
-    @JoinTable(
-            name = "course_students",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
-    private Set<Users> students;
+    private Set<CourseStudent> students;
 
     /**
      * The maximum number of students that can be enrolled in the course.
@@ -76,7 +71,7 @@ public class Courses {
      * @param teacher The teacher associated with the course.
      * @param students The students enrolled in the course.
      */
-    public Courses(String courseName, Integer courseCapacity, Users teacher, Set<Users> students) {
+    public Courses(String courseName, Integer courseCapacity, Users teacher, Set<CourseStudent> students) {
         this.courseName = courseName;
         this.teacher = teacher;
         this.students = students;
@@ -123,13 +118,13 @@ public class Courses {
      * Returns the students enrolled in the course.
      * @return The students enrolled in the course.
      */
-    public Set<Users> getStudents() { return students; }
+    public Set<CourseStudent> getStudents() { return students; }
 
     /**
      * Sets the students enrolled in the course.
      * @param students The students enrolled in the course.
      */
-    public void setStudents(Set<Users> students) { this.students = students;}
+    public void setStudents(Set<CourseStudent> students) { this.students = students;}
 
     /**
      * Returns the maximum number of students that can be enrolled in the course.

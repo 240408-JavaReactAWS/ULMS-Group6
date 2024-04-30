@@ -2,6 +2,7 @@ package com.revature.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Assignments")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Assignments {
 
     /**
@@ -32,7 +34,7 @@ public class Assignments {
     /**
      * The course associated with the assignment.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
     @JsonIgnore
     private Courses course;

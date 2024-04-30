@@ -4,10 +4,7 @@ import com.revature.backend.config.UserDTO;
 import com.revature.backend.config.UserGradesDTO;
 import com.revature.backend.exceptions.NoSuchCourseException;
 import com.revature.backend.exceptions.NoSuchUserFoundException;
-import com.revature.backend.models.Assignments;
-import com.revature.backend.models.Courses;
-import com.revature.backend.models.Grades;
-import com.revature.backend.models.Users;
+import com.revature.backend.models.*;
 import com.revature.backend.repos.AssignmentsDAO;
 import com.revature.backend.repos.CoursesDAO;
 import com.revature.backend.repos.GradesDAO;
@@ -113,14 +110,15 @@ public class GradesService {
     public List<UserGradesDTO> getAllGradesForCourse(Integer courseId) {
         try {
             Courses course = coursesDAO.findById(courseId).orElseThrow(() -> new NoSuchCourseException("No course with id:"+ courseId + "found"));
-            Set<Users> students = course.getStudents();
+            Set<CourseStudent> students = course.getStudents();
             List<UserGradesDTO> studentGradesList = new ArrayList<>();
-            for (Users student : students) {
-                List<Grades> grades = gradesDAO.findByUserUserId(student.getUserId());
+            for (CourseStudent student : students) {
+                Users user = student.getStudent();
+                List<Grades> grades = gradesDAO.findByUserUserId(user.getUserId());
                 UserDTO userDTO = new UserDTO();
-                userDTO.setId(student.getUserId());
-                userDTO.setFirstName(student.getFirstName());
-                userDTO.setLastName(student.getLastName());
+                userDTO.setId(user.getUserId());
+                userDTO.setFirstName(user.getFirstName());
+                userDTO.setLastName(user.getLastName());
                 UserGradesDTO userGradesDTO = new UserGradesDTO();
                 userGradesDTO.setUser(userDTO);
                 userGradesDTO.setGrades(grades);
