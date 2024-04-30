@@ -28,4 +28,6 @@ public interface AssignmentsDAO extends JpaRepository<Assignments, Integer> {
      * @return A list of assignments for the specified course.
      */
     List<Assignments> findByCourse_CourseId(Integer courseId);
+
+    void deleteAllByCourse_CourseId(int id);
 }

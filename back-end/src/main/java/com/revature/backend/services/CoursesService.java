@@ -3,6 +3,7 @@ package com.revature.backend.services;
 import com.revature.backend.exceptions.*;
 import com.revature.backend.models.*;
 import com.revature.backend.repos.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class CoursesService {
     private CourseStudentDAO CourseStudentDAO;
     private AssignmentsDAO AssignmentsDAO;
     private GradesDAO GradesDAO;
+    private AnnouncementsDAO AnnouncementsDAO;
 
     /**
      * Constructs a CoursesService with the specified CoursesDAO and UsersDAO.
@@ -25,12 +27,13 @@ public class CoursesService {
      * @param usersDAO the DAO to manage users
      */
     @Autowired
-    public CoursesService(CoursesDAO coursesDAO, UsersDAO usersDAO, CourseStudentDAO CourseStudentDAO, AssignmentsDAO AssignmentsDAO, GradesDAO GradesDAO) {
+    public CoursesService(CoursesDAO coursesDAO, UsersDAO usersDAO, CourseStudentDAO CourseStudentDAO, AssignmentsDAO AssignmentsDAO, GradesDAO GradesDAO , AnnouncementsDAO AnnouncementsDAO) {
         this.coursesDAO = coursesDAO;
         this.usersDAO = usersDAO;
         this.CourseStudentDAO = CourseStudentDAO;
         this.AssignmentsDAO = AssignmentsDAO;
         this.GradesDAO = GradesDAO;
+        this.AnnouncementsDAO = AnnouncementsDAO;
     }
 
     /**
@@ -75,9 +78,13 @@ public class CoursesService {
      * @return the deleted course
      * @throws NoSuchCourseException if no course is found with the specified ID
      */
+    @Transactional
     public Optional<Courses> deleteCourse(int id) throws NoSuchCourseException {
         Optional<Courses> deletedCourse = coursesDAO.findById(id);
         if(deletedCourse.isPresent()){
+
+            AnnouncementsDAO.deleteAllByCourse_CourseId(id);
+            AssignmentsDAO.deleteAllByCourse_CourseId(id);
             coursesDAO.deleteById(id);
         } else{
             throw new NoSuchCourseException("No course with id:"+ id + "found");

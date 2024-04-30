@@ -28,4 +28,6 @@ public interface AnnouncementsDAO extends JpaRepository<Announcements, Integer> 
      * @return A list of announcements for the specified course.
      */
     List<Announcements> findByCourse_CourseId(Integer courseId);
+
+    List<Announcements> deleteAllByCourse_CourseId(int id);
 }
