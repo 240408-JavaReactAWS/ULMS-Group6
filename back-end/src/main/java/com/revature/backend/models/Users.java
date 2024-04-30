@@ -63,9 +63,6 @@ public class Users {
     @JsonIgnore
     private Set<CourseStudent> enrolledCourses;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Grades> grades = new ArrayList<>();
 
 
     /**
