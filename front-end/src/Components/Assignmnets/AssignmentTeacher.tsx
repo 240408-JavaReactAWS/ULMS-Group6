@@ -14,14 +14,14 @@ export default function AssignmentTeacher() {
     const [assignments, setAssignments] = useState<Assignment[]>([]);
 
     const courseId = useParams<{ courseId: string }>().courseId;
-    
+
     useEffect(() => {
         axios.get(`http://localhost:8080/courses/${courseId}/assignments`).then(response => {
             // console.log(response.data);
-            
-            if(Array.isArray(response.data)){
+
+            if (Array.isArray(response.data)) {
                 setAssignments(response.data);
-            }else{
+            } else {
                 console.error('Error retrieving Assignments', response.data);
                 setAssignments([]);
             }
@@ -39,26 +39,27 @@ export default function AssignmentTeacher() {
         setDeadline(e.target.value);
     }
 
+
     let submitNewAssignment = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-            try {
-                const formattedDeadline = formatDeadline(deadline);
-                let res = await axios.post(`http://localhost:8080/courses/${courseId}/assignments`, {
-                    assignmentName: name,
-                    deadline: formattedDeadline
-                });
-                if (res.status === 201) {
-                    // Update the assignments state with the new assignment
-                    const newAssignment = res.data; // Assuming the API response returns the new assignment
-                    setAssignments([newAssignment, ...assignments]);
-                    // Clear the form fields if needed
-                    setName('');
-                    setDeadline('');
-                }
-            } catch (error) {
-                console.log("Error creating Assignment");
+
+        try {
+            const formattedDeadline = formatDeadline(deadline);
+            let res = await axios.post(`http://localhost:8080/courses/${courseId}/assignments`, {
+                assignmentName: name,
+                deadline: formattedDeadline
+            });
+            if (res.status === 201) {
+                // Update the assignments state with the new assignment
+                const newAssignment = res.data; // Assuming the API response returns the new assignment
+                setAssignments([newAssignment, ...assignments]);
+                // Clear the form fields if needed
+                setName('');
+                setDeadline('');
             }
+        } catch (error) {
+            console.log("Error creating Assignment");
+        }
     }
 
     let deleteAssignment = async (assignmentId: number) => {
@@ -94,13 +95,13 @@ export default function AssignmentTeacher() {
                 <form onSubmit={submitNewAssignment} className='new-Assignment'>
                     <label>
                         Assignment Name:
-                        <input type='text' name='name' onChange={addName} required/><br />
+                        <input type='text' name='name' onChange={addName} required value={name}/><br />
                     </label>
                     <label>
                         Assignment Due Date:
-                        <input type='Date' name='Deadline' onChange={addDeadline} required/><br />
+                        <input type='Date' name='Deadline' onChange={addDeadline} required value={deadline}/><br />
                     </label>
-                    <button type="submit" className="btn">
+                    <button type="submit" className="btn" >
                         Add
                     </button>
                 </form>
@@ -111,10 +112,10 @@ export default function AssignmentTeacher() {
                         <div key={index} className="assignment-card">
                             <div className="assignment">
                                 <h3>Assignment Name: {assignment.assignmentName}</h3>
-                                <p>Dedline: {assignment.deadline}</p> 
+                                <p>Dedline: {assignment.deadline}</p>
                             </div>
-                            
-                            
+
+
                             <button className="delete-button" onClick={() => {
                                 deleteAssignment(assignment.assignmentsId);
                             }}>Delete</button>
