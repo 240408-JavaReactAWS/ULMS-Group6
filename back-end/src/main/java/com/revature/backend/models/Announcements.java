@@ -2,6 +2,7 @@ package com.revature.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Announcements")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Announcements {
 
     /**

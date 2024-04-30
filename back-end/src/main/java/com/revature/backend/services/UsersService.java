@@ -21,6 +21,8 @@ public class UsersService {
     private UsersDAO usersDAO;
     private AssignmentsDAO assignmentsDAO;
     private CourseStudentDAO CourseStudentDAO;
+    private CoursesDAO coursesDAO;
+    private GradesDAO gradesDAO;
 
     /**
      * Constructs a UsersService with the specified UsersDAO, AssignmentsDAO, and AnnouncementsDAO.
@@ -29,11 +31,13 @@ public class UsersService {
      * @param announcementsDAO the DAO to manage announcements
      */
     @Autowired
-    public UsersService(UsersDAO usersDAO, AssignmentsDAO assignmentsDAO, AnnouncementsDAO announcementsDAO, CourseStudentDAO CourseStudentDAO) {
+    public UsersService(UsersDAO usersDAO, AssignmentsDAO assignmentsDAO, AnnouncementsDAO announcementsDAO, CourseStudentDAO CourseStudentDAO, CoursesDAO coursesDAO, GradesDAO gradesDAO) {
         this.usersDAO = usersDAO;
         this.assignmentsDAO  = assignmentsDAO;
         this.announcementsDAO = announcementsDAO;
         this.CourseStudentDAO = CourseStudentDAO;
+        this.coursesDAO = coursesDAO;
+        this.gradesDAO = gradesDAO;
     }
 
     /**
@@ -152,19 +156,19 @@ public class UsersService {
         if(userToDelete.isPresent()){
             Users user = userToDelete.get();
 
-
             if(user.getRole() == Roles.ADMIN){
                 throw new ForbiddenException("Admin User with userid:"+ id + " cannot be deleted from database");
-            }else if (user.getRole() == Roles.TEACHER){
+            } else if (user.getRole() == Roles.TEACHER){
                 List<Courses> courses = user.getTaughtCourses();
                 for(Courses course: courses){
+//                    List<Announcements> announcements = announcementsDAO.findByCourse_CourseId(course.getCourseId());
+//                    announcementsDAO.deleteAll(announcements);
                     course.setTeacher(null);
+                    coursesDAO.save(course);
                 }
-            }else{
-                Set<CourseStudent> courseStudents = user.getEnrolledCourses();
-                for(CourseStudent courseStudent: courseStudents){
-                    CourseStudentDAO.delete(courseStudent);
-                }
+            } else {
+                List<Grades> grades = gradesDAO.findByUser_UserId(id);
+                gradesDAO.deleteAll(grades);
             }
             usersDAO.deleteById(id);
         } else {

@@ -35,4 +35,7 @@ public interface GradesDAO extends JpaRepository<Grades,Integer> {
      * @return The grade for the specified assignment and user.
      */
     Grades findByAssignmentAssignmentsIdAndUserUserId(Integer assignmentId, Integer userId);
+
+    List<Grades> findByUser_UserId(int id);
+
 }
