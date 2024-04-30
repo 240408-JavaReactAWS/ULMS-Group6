@@ -28,23 +28,25 @@ public class Grades {
     /**
      * The assignment associated with the grade.
      */
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignment_id")
     private Assignments assignment;
 
     /**
      * The user associated with the grade.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private Users user;
+
 
     /**
      * Default constructor.
      */
     public Grades() {
     }
+
 
     /**
      * Constructor that initializes the grade, assignment, and user.

@@ -20,7 +20,7 @@ public interface AnnouncementsDAO extends JpaRepository<Announcements, Integer> 
      * @param courseId The ID of the course.
      * @return A list of announcements for the specified course that the specified student is enrolled in.
      */
-    List<Announcements> findByCourse_Students_UserIdAndCourse_CourseId(Integer studentId, Integer courseId);
+    List<Announcements> findByCourse_Students_Student_UserIdAndCourse_CourseId(Integer studentId, Integer courseId);
 
     /**
      * Finds announcements for a specific course.

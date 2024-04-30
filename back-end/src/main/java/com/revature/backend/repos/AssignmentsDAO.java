@@ -20,7 +20,7 @@ public interface AssignmentsDAO extends JpaRepository<Assignments, Integer> {
      * @param courseId The ID of the course.
      * @return A list of assignments for the specified course that the specified student is enrolled in.
      */
-    List<Assignments> findByCourse_Students_UserIdAndCourse_CourseId(Integer studentId, Integer courseId);
+    List<Assignments> findByCourse_Students_Student_UserIdAndCourse_CourseId(Integer studentId, Integer courseId);
 
     /**
      * Finds assignments for a specific course.

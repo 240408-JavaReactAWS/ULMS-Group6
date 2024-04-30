@@ -3,15 +3,9 @@ package com.revature.backend.services;
 import com.revature.backend.exceptions.ForbiddenException;
 import com.revature.backend.exceptions.NoSuchUserException;
 import com.revature.backend.exceptions.UsernameAlreadyTakenException;
-import com.revature.backend.models.Roles;
+import com.revature.backend.models.*;
 import com.revature.backend.exceptions.NoSuchUserFoundException;
-import com.revature.backend.models.Announcements;
-import com.revature.backend.models.Assignments;
-import com.revature.backend.models.Courses;
-import com.revature.backend.models.Users;
-import com.revature.backend.repos.AnnouncementsDAO;
-import com.revature.backend.repos.AssignmentsDAO;
-import com.revature.backend.repos.UsersDAO;
+import com.revature.backend.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +20,7 @@ public class UsersService {
     private AnnouncementsDAO announcementsDAO;
     private UsersDAO usersDAO;
     private AssignmentsDAO assignmentsDAO;
+    private CourseStudentDAO CourseStudentDAO;
 
     /**
      * Constructs a UsersService with the specified UsersDAO, AssignmentsDAO, and AnnouncementsDAO.
@@ -34,10 +29,11 @@ public class UsersService {
      * @param announcementsDAO the DAO to manage announcements
      */
     @Autowired
-    public UsersService(UsersDAO usersDAO, AssignmentsDAO assignmentsDAO, AnnouncementsDAO announcementsDAO) {
+    public UsersService(UsersDAO usersDAO, AssignmentsDAO assignmentsDAO, AnnouncementsDAO announcementsDAO, CourseStudentDAO CourseStudentDAO) {
         this.usersDAO = usersDAO;
         this.assignmentsDAO  = assignmentsDAO;
         this.announcementsDAO = announcementsDAO;
+        this.CourseStudentDAO = CourseStudentDAO;
     }
 
     /**
@@ -50,7 +46,12 @@ public class UsersService {
         Optional<Users> usersOptional = usersDAO.findById(studentId);
         if(usersOptional.isPresent()){
             Users user = usersOptional.get();
-            return user.getEnrolledCourses();
+            Set<CourseStudent> courseStudents = user.getEnrolledCourses();
+            Set<Courses> courses= new HashSet<>();
+            for(CourseStudent courseStudent: courseStudents){
+                courses.add(courseStudent.getCourse());
+            }
+            return courses;
         }else{
             throw new NoSuchUserFoundException("No user found with ID: " + studentId);
         }
@@ -79,7 +80,7 @@ public class UsersService {
      * @return a list of assignments for the specified student and course
      */
     public List<Assignments> getAssignmentsByCourseAndStudent(Integer studentId, Integer courseId) {
-        return assignmentsDAO.findByCourse_Students_UserIdAndCourse_CourseId(studentId, courseId);
+        return assignmentsDAO.findByCourse_Students_Student_UserIdAndCourse_CourseId(studentId, courseId);
     }
 
     /**
@@ -89,7 +90,7 @@ public class UsersService {
      * @return a list of announcements for the specified student and course
      */
     public List<Announcements> getAllAnnouncementsByCourseId(Integer studentId, Integer courseId){
-        return announcementsDAO.findByCourse_Students_UserIdAndCourse_CourseId(studentId, courseId);
+        return announcementsDAO.findByCourse_Students_Student_UserIdAndCourse_CourseId(studentId, courseId);
     }
 
     /**
@@ -151,8 +152,19 @@ public class UsersService {
         if(userToDelete.isPresent()){
             Users user = userToDelete.get();
 
+
             if(user.getRole() == Roles.ADMIN){
                 throw new ForbiddenException("Admin User with userid:"+ id + " cannot be deleted from database");
+            }else if (user.getRole() == Roles.TEACHER){
+                List<Courses> courses = user.getTaughtCourses();
+                for(Courses course: courses){
+                    course.setTeacher(null);
+                }
+            }else{
+                Set<CourseStudent> courseStudents = user.getEnrolledCourses();
+                for(CourseStudent courseStudent: courseStudents){
+                    CourseStudentDAO.delete(courseStudent);
+                }
             }
             usersDAO.deleteById(id);
         } else {

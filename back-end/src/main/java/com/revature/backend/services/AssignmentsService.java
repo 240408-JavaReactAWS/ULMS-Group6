@@ -1,9 +1,6 @@
 package com.revature.backend.services;
 
-import com.revature.backend.models.Assignments;
-import com.revature.backend.models.Courses;
-import com.revature.backend.models.Grades;
-import com.revature.backend.models.Users;
+import com.revature.backend.models.*;
 import com.revature.backend.repos.AssignmentsDAO;
 import com.revature.backend.repos.CoursesDAO;
 import com.revature.backend.repos.GradesDAO;
@@ -49,11 +46,12 @@ public class AssignmentsService {
                 .orElseThrow(() -> new IllegalArgumentException("Course not found"));
         assignment.setCourse(course);
         Assignments newAssignment = assignmentsDAO.save(assignment);
-        Set<Users> students = course.getStudents();
-        for (Users student : students) {
+        Set<CourseStudent> students = course.getStudents();
+        for (CourseStudent student : students) {
+            Users studentUser = student.getStudent();
             Grades defaultGrade = new Grades();
             defaultGrade.setAssignment(newAssignment);
-            defaultGrade.setUser(student);
+            defaultGrade.setUser(studentUser);
             defaultGrade.setGrade(null); // Set default grade to null initially
             gradesDAO.save(defaultGrade);
         }
