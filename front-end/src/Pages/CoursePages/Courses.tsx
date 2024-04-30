@@ -9,11 +9,9 @@ import TeacerGrades from '../../Components/TeacherGrades/TeacherGrades';
 import Announcements from '../../Components/Announcements/Announcements';
 
 interface Announcement {
-    message: string;
-    date: any;
-  }
-
-
+  message: string;
+  date: any;
+}
 
 export default function Courses() {
   const courseId = useParams<{ courseId: string }>().courseId;
@@ -43,28 +41,38 @@ export default function Courses() {
   }, [courseId]);
 
   return (
-    <div className="course-page">
-        <h1 className='course-name'>{courseName}</h1>
+    <>
+      <div className="course-page">
+      
+      <h1 className='course-name'>{courseName}</h1>
       <div className="tab-buttons">
-        <button onClick={() => setSelectedTab('announcements')} className="tab-button">Announcements</button>
-        <button onClick={() => setSelectedTab('assignments')} className="tab-button">Assignments</button>
-        <button onClick={() => setSelectedTab('grades')} className="tab-button">Grades</button>
+        <button 
+          onClick={() => setSelectedTab('announcements')} 
+          className={`tab-button ${selectedTab === 'announcements' ? 'selected' : ''}`}
+        >
+          Announcements
+        </button>
+
+        <button 
+          onClick={() => setSelectedTab('assignments')} 
+          className={`tab-button ${selectedTab === 'assignments' ? 'selected' : ''}`}
+        >
+          Assignments
+        </button>
+
+        <button 
+          onClick={() => setSelectedTab('grades')} 
+          className={`tab-button ${selectedTab === 'grades' ? 'selected' : ''}`}
+        >
+          Grades
+        </button>
       </div>
-      <div className="content"> 
-      {/* {selectedTab === 'announcements' && (
-        <div className="announcement-list">
-          {announcements.map((announcement, index) => (
-            <div key={index} className="announcement-card">
-              <h3 className="announcement-title">{announcement.message}</h3>
-              <p className="announcement-date">Date: {announcement.date}</p>
-            </div>
-          ))}
-        </div>
-      )} */}
-      {selectedTab === 'announcements' && <Announcements />}
-      {selectedTab === 'assignments' && (localStorage.getItem('role') === 'TEACHER' ? <AssignmentTeacher /> : <Assignments/>)}
-      {selectedTab === 'grades' && (localStorage.getItem('role') === 'TEACHER' ? <TeacerGrades /> : <GradesContainer/>)}
+      <div className="content">
+        {selectedTab === 'announcements' && <Announcements/>}
+        {selectedTab === 'assignments' && (localStorage.getItem('role') === 'TEACHER' ? <AssignmentTeacher /> : <Assignments/>)}
+        {selectedTab === 'grades' && (localStorage.getItem('role') === 'TEACHER' ? <TeacerGrades /> : <GradesContainer/>)}
+      </div>
     </div>
-    </div>
+    </>
   );
 }

@@ -1,0 +1,24 @@
+.grades-container {
+    font-family: Arial, sans-serif;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px 0 5px 0;
+  }
+  
+  .grade-title {
+    text-align: center;
+    color: #333;
+  }
+  
+  .grades-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .total-grade {
+    font-weight: bold;
+    text-align: right;
+  }

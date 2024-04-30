@@ -6,9 +6,21 @@
   background-color: green;
   color: #fff;
 }
+
 .logo {
   font-size: 2rem;
   font-weight: bold;
+  margin-left: 10px;
+  border: 2px solid white;
+  border-radius: 5px 0 5px 0;
+  padding: 5px;
+}
+
+.logo:hover {
+  color: darkgreen;
+  border: 2px solid white;
+  padding: 5px;
+  background-color: white;
 }
 
 .nav h1 {
@@ -20,10 +32,28 @@
   text-decoration: none;
 }
 
-.nav a:hover {
-  text-decoration: underline;
+.logout-button {
+  background-color: green;
+  color: wheat;
+  padding: 0.5rem 1rem;
+  border: 1px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logout-button:hover {
+  background-color: darkred;
 }
 
+.login-button {
+  color: green;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-
-
+.login-button:hover {
+  background-color: darkgreen;
+  color: white;
+  border: 1px solid white;
+}

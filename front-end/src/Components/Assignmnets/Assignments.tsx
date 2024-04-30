@@ -44,10 +44,11 @@ function Assignments() {
                     {assignments?.map((assignment, index) => {
                         return (
                             <div key={index} className="assignment-card">
-                                <h3>Assignment Name: {assignment.assignmentName}
-                                    <br />Due Date: {assignment.deadline}
-                                </h3>
-                                <button className="button">Submit</button>
+                                <div className="assignment">
+                                    <h3>Assignment Name: {assignment.assignmentName}</h3>
+                                    <p>Dedline:{assignment.deadline}</p> 
+                                </div>
+                            <button className="delete-button">Submit</button>
                             </div>
                         );
                     })}

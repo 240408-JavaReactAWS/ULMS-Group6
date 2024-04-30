@@ -53,14 +53,14 @@ function Login() {
     return (
         <>
             <div className="login-container"> 
-                <div className="logo-container">
-                    <h2>Welcome to Unified Learning Management System</h2>
+                <div className="login-container-title">
+                    <h1>Welcome to Unified Learning Management System</h1>
                 </div>
                 <form className = "login-form" onSubmit={submit}>
                     <h1>Login</h1>
-                    {error && <h5 style={{ color: 'Blue', background:"orange" }}>{error}</h5> }
-                    <input type="text" required placeholder="Username" onChange={e => setUsername(e.target.value)} />
-                    <input type="password" required placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                    {error && <div className='error-container'>{error}</div> }
+                    <input type="text" required placeholder="Username" onChange={e => {setUsername(e.target.value); setError('')}} />
+                    <input type="password" required placeholder="Password" onChange={e => {setPassword(e.target.value); setError('')}} />
                     <button type="submit">Login</button>
                 </form>
             </div>

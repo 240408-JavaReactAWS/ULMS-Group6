@@ -9,9 +9,16 @@
     background-color: #f0fff0; /* Light green background */
 }
 
+.announcement-card h3 {
+    color: #007bff;
+    margin-bottom: 5px;
+}
+
 .title{
     text-align: center;
     font-size: 1.5rem;
     font-weight: bolder;
     color: #008000; /* Green color */
 }
+
+

@@ -40,7 +40,6 @@ function AdminDashboard() {
     return (
         <>
           <div className="dashboard-header">
-              <h1> Admin Dashboard</h1>
               <h2> Welcome, {curUser?.username}</h2>
           </div>
           <div className="content-box">

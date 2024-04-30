@@ -151,6 +151,11 @@ public class UsersController {
         }
     }
 
+    /**
+     * Handles the GET request to retrieve all courses a teacher is teaching.
+     * @param teacherId the ID of the teacher
+     * @return  a ResponseEntity containing a set of the taught courses, or a not found status and an error message if the teacher does not exist
+     */
     @GetMapping("/{teacherId}/taught")
     public ResponseEntity<?> getTaughtCourses(@PathVariable Integer teacherId) {
         try {

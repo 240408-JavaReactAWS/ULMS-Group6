@@ -67,15 +67,14 @@ function Announcements() {
                     <button onClick={handleNewAnnouncement}>New Announcement</button>
                 }
                 <div className="announcement-container">
-                    {announcements.map((announcement, index) => {
+                    {announcements?.map((announcement, index) => {
                         return (
                             <div key={index} className="announcement-card">
                                 <h3>{announcement.message}</h3>
                                 <p>Date: {announcement.date}</p>
                                 {
-                                    
                                     userRole === "TEACHER" &&
-                                    <button onClick={() => deleteAnnouncement(announcement.announcementId)}>Delete</button>
+                                    <button className="delete-button" onClick={() => deleteAnnouncement(announcement.announcementId)}>Delete</button>
                                 }
                             </div>
                         );

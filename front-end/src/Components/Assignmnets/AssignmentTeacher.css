@@ -1,0 +1,35 @@
+.assignment-card {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #008000; /* Green border */
+    box-shadow: 0 2px 5px rgba(0, 128, 0, 0.15); /* Green shadow */
+    padding: 10px;
+    border-radius: 5px;
+    margin:10px;
+    background-color: #f0fff0; /* Light green background */
+}
+
+.assignment{
+    align-items: center;
+    padding: 10px;
+    background-color: #f0fff0; /* Light green background */
+}
+
+.assignment h3 {
+    color: #007bff;
+    margin-bottom: 5px;
+}
+  
+.delete-button {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 8px;
+    margin: 20px;
+    padding: auto;
+    height: fit-content;
+}

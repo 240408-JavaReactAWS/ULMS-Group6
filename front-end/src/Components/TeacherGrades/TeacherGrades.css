@@ -1,0 +1,38 @@
+.teacher-page {
+    font-family: Arial, sans-serif;
+}
+  
+.title {
+    text-align: center;
+    color: #333;
+}
+  
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+  
+.grades-table, .student-column, td {
+    border: 1px solid #999;
+    padding: 20px;
+    text-align: center;
+}
+  
+.student-column {
+    background-color: #f3f3f3;
+}
+  
+.save-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    height:fit-content;
+}

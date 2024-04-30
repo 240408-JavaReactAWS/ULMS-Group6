@@ -4,6 +4,7 @@ import User from "../../interfaces/UserInterface";
 import Course from "../../interfaces/CourseInterface";
 import CourseCard from "../../Components/CourseCards/CourseCard";
 import axios from "axios";
+import './Dashboard.css';
 
 function Dashboard() {
     const [curUser, setCurrentUser] = useState<User | null>();
@@ -47,38 +48,13 @@ function Dashboard() {
         asyncCall();
     },[]);
 
-    /*useEffect(() => {
-        let asyncCall = async () => {
-            try {
-                let userId = localStorage.getItem("userId");
-                console.log(userId, curUser?.role);
-                if (userId && curUser?.role === 'STUDENT') {
-                    const response = await axios('http://localhost:8080/users/' + userId + '/courses');
-                    if (response.status === 200) {
-                        const courses = response.data; // Use the 'data' property instead of calling 'json()'
-                        setCourses(courses);
-                    }
-                } else if (userId && curUser?.role === 'TEACHER') {
-                    const response = await axios('http://localhost:8080/users/' + userId + '/taught'); // modify for teacher get mapping
-                    if (response.status === 200) {
-                        const courses = response.data; // Use the 'data' property instead of calling 'json()'
-                        setCourses(courses);
-                    }
-                }
-        } catch (error) {
-            console.error(error);
-            }
-        } 
-        asyncCall();
-    },[]);*/
-
     return (
         <> 
-            <h1> {curUser?.role === 'TEACHER'? 'Teacher Dashboard': 'Student Dashboard'}</h1>
-            <h2> Welcome, {curUser?.username}</h2>
-
+            <div className="dashboard-header-2">
+                <h2> Welcome, {curUser?.username}</h2>
+            </div>
+            <h1 className="course-header"> My Courses </h1>
             <div id="courseList">
-                <h3> My Courses </h3>
                 {courses.map((course) => {
                     return (
                         <CourseCard key={course.courseId} {...course}/>

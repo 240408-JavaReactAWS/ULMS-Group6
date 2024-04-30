@@ -39,12 +39,12 @@ public class Courses {
      * The students enrolled in the course.
      */
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "course_students",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    @JsonIgnore
     private Set<Users> students;
 
     /**

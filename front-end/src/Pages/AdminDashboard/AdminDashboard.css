@@ -1,16 +1,11 @@
 .dashboard-header {
-    background-color: #a6eda9; /* Green background */
-    padding: 20px;
-    text-align: center;
-    color: black; /* White text */
-}
-
-.dashboard-header h1, .dashboard-header h2 {
-    margin: 0;
-}
+    background-color: #c3f1c6;
+    padding: 10px;
+    text-align: center ;
+    color: black;
+} 
 
 .content-box {
-    background-color: #E8F5E9; /* Light Green background */
     padding: 20px;
 }
 

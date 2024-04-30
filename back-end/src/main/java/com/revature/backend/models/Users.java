@@ -63,7 +63,7 @@ public class Users {
     /**
      * The courses that the user is teaching.
      */
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany( mappedBy = "teacher")
     @JsonIgnore
     private List<Courses> taughtCourses;
 

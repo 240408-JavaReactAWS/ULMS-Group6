@@ -17,10 +17,14 @@ function Nav() {
             <Link className="logo" to="/">ULMS</Link>
             {
                 isLoggedIn ? (
-                    <button onClick={handleLogout}>Logout</button>
+                    <>
+                        <h1>{localStorage.getItem('role')} DASHBOARD</h1>
+                        <button className="logout-button" onClick={handleLogout}>Logout</button>
+                    </>
+                    
                 ):(
                     <>
-                        <Link to="/login">Login</Link>
+                        <button className="login-button" onClick={() => navigate('/login')}>Login</button>
                     </>
                 )
             }

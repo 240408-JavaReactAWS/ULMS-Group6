@@ -1,0 +1,25 @@
+.dashboard-header-2 {
+    background-color: #c3f1c6;
+    padding: 10px;
+    text-align: center ;
+    color: black;
+}
+
+#courseList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+
+.course-header{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+  
+#courseList .course-card {
+    width: calc(50% - 10px);
+}
+

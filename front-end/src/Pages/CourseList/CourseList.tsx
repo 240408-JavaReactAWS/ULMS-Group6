@@ -54,8 +54,9 @@ function CourseList() {
   return (
     
     <div className ="coures-list">
-      <h2>Course List</h2>
+      <h2 className="course-list-title">Course List</h2>
       <button className="add-course-button" onClick={handleShow}>Add Course</button>
+      
       {show && (
         <form className="add-course-form" onSubmit={addCourse}>
         <h2>Add Course</h2>
@@ -92,7 +93,7 @@ function CourseList() {
                   <Link to={`/manage-course/${course.courseId}`}>Manage</Link>
                 </td>
                 <td>
-                <button onClick={() => deleteCourse(course.courseId)}>Delete</button>
+                <button className="delete-button" onClick={() => deleteCourse(course.courseId)}>Delete</button>
               </td>
               </tr>
             ))}

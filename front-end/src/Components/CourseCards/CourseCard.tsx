@@ -1,6 +1,7 @@
 import React from "react";
 import Course from "../../interfaces/CourseInterface";
 import { useNavigate, useParams } from "react-router-dom";
+import './CourseCard.css';
 
 function CourseCard(props: Course) {
 
@@ -15,7 +16,7 @@ function CourseCard(props: Course) {
     return (
         <div className = 'Course'>
             <h1>{props.courseName}</h1>
-            <h2>{props.courseId}</h2>
+            <h2>Course Id: {props.courseId}</h2>
             <button onClick={viewCourse}>View Course</button>
         </div>
     )

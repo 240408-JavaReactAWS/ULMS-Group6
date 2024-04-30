@@ -6,6 +6,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+.user-list-header{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 
 .add-user-button:hover {
     background-color: #388E3C;
@@ -34,6 +40,7 @@
 .user-table th, .user-table td {
     border: 1px solid #ddd;
     padding: 8px;
+    text-align: center;
 }
 
 .user-table tr:nth-child(even) {
@@ -46,9 +53,7 @@
 
 .submit-button {
     align-self: flex-start;
-    width: auto;
-    padding: 10px 10px;
-    margin: 10px 0;
+    /* width: auto; */
     background-color: #4CAF50; /* Green background */
     color: white; /* White text */
     border: none;
@@ -60,4 +65,29 @@
     background-color: #388E3C; /* Dark Green background on hover */
 }
 
+.add-user-botton{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-user-botton:hover {
+    background-color: #388E3C;
+}
+
+.delete-button{
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #ba000d;
+}
 

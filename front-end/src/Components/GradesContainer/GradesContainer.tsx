@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GradeCard from '../GradeCard/GradeCard';
 import { useParams } from 'react-router-dom';
+import './GradesContainer.css';
 
 interface Assignment {
     assignmentsId: number;
@@ -45,20 +46,22 @@ function GradesContainer() {
     const totalGradePercentage = (totalGrade / count) * 100;
 
     return (
-        <div>
-            <h1>Grades</h1>
-            <ul>
-                {grades.map((grade: Grade) => (
-                    <GradeCard
-                        key={grade.gradeId}
-                        assignmentName={grade.assignment.assignmentName}
-                        grade={grade.grade !== null ? grade.grade : ''}
-                    />
-                ))}
-            </ul>
+        <>
+            <div className="grades-container">
+                <h1 className="grade-title">Grades</h1>
+                <ul className="grades-list">
+                    {grades.map((grade: Grade) => (
+                        <GradeCard
+                            key={grade.gradeId}
+                            assignmentName={grade.assignment.assignmentName}
+                            grade={grade.grade !== null ? grade.grade : ''}
+                        />
+                    ))}
+                </ul>
 
-            <p>Total Grade: {totalGradePercentage.toPrecision(4)}%</p>
-        </div>
+                <p className="total-grade">Total Grade: {totalGradePercentage.toPrecision(4)}%</p>
+            </div>
+        </>
     );
 }
 

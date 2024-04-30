@@ -55,24 +55,24 @@ const deleteUser = (userId : number) => {
 
   return (
     <>
-      <h2>User List</h2>
+      <h2 className="user-list-header">User List</h2>
       <button className= "add-user-botton" onClick={handleShow}>Add User</button>
 
       {show && (
         <div className ="add-user-form">
           <h2>Add User</h2>
-          <form onSubmit={addUser}>
+          <form onSubmit={addUser} autoComplete="off">
             <label>
               Username:
-              <input type="text" name="username" />
+              <input type="text" name="username" required/>
             </label>
             <label>
               First Name:
-              <input type="text" name="firstName" />
+              <input type="text" name="firstName" required/>
             </label>
             <label>
               Last Name:
-              <input type="text" name="lastName" />
+              <input type="text" name="lastName" required/>
             </label>
             <label>
               Role:
@@ -110,7 +110,7 @@ const deleteUser = (userId : number) => {
                 <td>{user.lastName}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button onClick={() => deleteUser(user.userId)}>Delete</button>
+                  <button className="delete-button" onClick={() => deleteUser(user.userId)}>Delete</button>
                 </td>
               </tr>
             ))}

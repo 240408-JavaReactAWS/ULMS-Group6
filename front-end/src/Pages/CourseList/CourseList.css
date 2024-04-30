@@ -2,6 +2,13 @@
     margin: 20px;
 }
 
+.course-list-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
 .add-course-button {
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -52,7 +59,7 @@
 .course-table th, .course-table td {
     border: 1px solid #ddd;
     padding: 8px;
-    align-items: center;
+    text-align: center;
 }
 
 .course-table tr:nth-child(even) {
@@ -61,4 +68,17 @@
 
 .course-table tr:hover {
     background-color: #ddd;
+}
+
+.delete-button {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #ba000d;
 }

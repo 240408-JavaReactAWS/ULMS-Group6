@@ -32,6 +32,7 @@
 .student-table table {
     width: 100%;
     border-collapse: collapse;
+    text-align: center;
 }
 
 .student-table th, .student-table td {
@@ -45,4 +46,17 @@
 
 .student-table tr:hover {
     background-color: #ddd;
+}
+
+.delete-button {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #ba000d;
 }

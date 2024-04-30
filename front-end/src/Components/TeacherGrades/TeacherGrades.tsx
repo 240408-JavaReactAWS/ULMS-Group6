@@ -3,6 +3,7 @@ import axios from 'axios';
 import AssignmentColumnGrades from '../AssignmentColumGrades/AssignmentColumGrades';
 import StudentRowGrades from '../StudentRowGrades/StudentRowGrades';
 import { useParams } from 'react-router-dom';
+import './TeacherGrades.css';
 
 interface Assignment {
     assignmentsId: number;
@@ -87,25 +88,27 @@ const handleGradeChange = (userId: number, assignmentId: number, newGrade: numbe
   };
 
 const handleSaveChanges = () => {
-    axios.post(`http://localhost:8080/${courseID}/grades/save-grades`, grades)
-        .then(response => {
-            console.log('Changes saved successfully:', response.data);
-        })
-        .catch(error => {
-            console.error('Error saving changes:', error);
-        });
+    const confirmed = window.confirm('Are you sure you want to save these changes?');
+    if (confirmed) {
+      axios.post(`http://localhost:8080/${courseID}/grades/save-grades`, grades)
+          .then(response => {
+              console.log('Changes saved successfully:', response.data);
+          })
+          .catch(error => {
+              console.error('Error saving changes:', error);
+          });
+    }
 };
 
   return (
-    <div>
-      <h1>Teacher Page</h1>
-      
-    <table>
+    <div className="teacher-page">
+      <h1 className="title">Grade Page</h1>
+      <table className="grades-table">
         <thead>
             <tr>
-                <th>Student</th>
+                <th className="student-column">Student</th>
                 {assignments.map((assignment) => (
-                    <AssignmentColumnGrades key={assignment.assignmentsId} assignment={assignment} />
+                  <AssignmentColumnGrades key={assignment.assignmentsId} assignment={assignment} />
                 ))}
             </tr>
         </thead>
@@ -119,8 +122,8 @@ const handleSaveChanges = () => {
                 />
             ))}
         </tbody>
-    </table>
-    <button onClick={handleSaveChanges}>Save Changes</button>
+      </table>
+      <button className="save-button" onClick={handleSaveChanges}>Save Changes</button>
     </div>
   );
 };

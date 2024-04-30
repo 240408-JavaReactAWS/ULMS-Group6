@@ -1,14 +1,16 @@
 .login-container {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    background-color: #e8f5e9; /* light green background */
+    color: #4caf50; /* green text */
 }
-.logo-container {
+
+.login-container-title h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: green;
+    margin-top: 10%;
 }
   
 .login-form {
@@ -17,25 +19,36 @@
     align-items: center;
     gap: 10px;
     padding: 20px;
-    border-radius: 5px;
-    background-color: #4caf50; /* green background */
+    border-radius: 10px;
+    background-color: #318e34; /* light green background */
     color: white;
-    margin-top: 20px;
+    width: fit-content;
+    height: fit-content;
 }
   
 .login-form input,
 .login-form button {
     margin-top: 10px;
+    padding: 10px;
 }
   
 .login-form button {
-    background-color: #137f19; /* light green button */
-    color: white;
-    border: none;
+    background-color:antiquewhite;
+    color: darkgreen; 
+    border: 1px solid white;
+    border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
 }
   
 .login-form button:hover {
-    background-color: #135416; /* darker green on hover */
+    background-color: #0d5f13; /* darker green on hover */
+    color: white;
+}
+
+.error-container {
+    color: brown;
+    text-align: center;
+    background-color: burlywood;
+    padding: 10px;
 }

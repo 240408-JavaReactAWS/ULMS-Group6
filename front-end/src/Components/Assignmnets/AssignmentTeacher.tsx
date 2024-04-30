@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Assignments.css';
 import Assignment from '../../interfaces/AssignmentInterface';
 import { useParams } from 'react-router-dom';
-
+import './AssignmentTeacher.css';
 
 export default function AssignmentTeacher() {
 
@@ -39,37 +39,41 @@ export default function AssignmentTeacher() {
         setDeadline(e.target.value);
     }
 
-    let submitNewAssignment = async (e: React.FormEvent<HTMLFormElement>) => {
+    let submitNewAssignment = async (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            const formattedDeadline = formatDeadline(deadline);
-            let res = await axios.post(`http://localhost:8080/courses/${courseId}/assignments`, {
-                assignmentName: name,
-                deadline: formattedDeadline
-            });
-            if (res.status === 201) {
-                // Update the assignments state with the new assignment
-                const newAssignment = res.data; // Assuming the API response returns the new assignment
-                setAssignments([newAssignment, ...assignments]);
-                // Clear the form fields if needed
-                setName('');
-                setDeadline('');
+        
+            try {
+                const formattedDeadline = formatDeadline(deadline);
+                let res = await axios.post(`http://localhost:8080/courses/${courseId}/assignments`, {
+                    assignmentName: name,
+                    deadline: formattedDeadline
+                });
+                if (res.status === 201) {
+                    // Update the assignments state with the new assignment
+                    const newAssignment = res.data; // Assuming the API response returns the new assignment
+                    setAssignments([newAssignment, ...assignments]);
+                    // Clear the form fields if needed
+                    setName('');
+                    setDeadline('');
+                }
+            } catch (error) {
+                console.log("Error creating Assignment");
             }
-        } catch (error) {
-            console.log("Error creating Assignment");
-        }
     }
 
     let deleteAssignment = async (assignmentId: number) => {
-        try {
-            let res = await axios.delete(`http://localhost:8080/courses/${courseId}/assignments/${assignmentId}`, { withCredentials: false });
-            if (res.status === 200) {
-                console.log("Assignment Deleted");
+        const confirmDelete = window.confirm("Are you sure you want to delete this assignment?");
+        if (confirmDelete) {
+            try {
+                let res = await axios.delete(`http://localhost:8080/courses/${courseId}/assignments/${assignmentId}`, { withCredentials: false });
+                if (res.status === 200) {
+                    console.log("Assignment Deleted");
+                }
+                setAssignments(assignments.filter(assignment => assignment.assignmentsId !== assignmentId));
+            } catch (error) {
+                console.log("Error deleting plan");
+                alert("Error deleting plan");
             }
-            setAssignments(assignments.filter(assignment => assignment.assignmentsId !== assignmentId));
-        } catch (error) {
-            console.log("Error deleting plan");
-            alert("Error deleting plan");
         }
     }
 
@@ -90,11 +94,11 @@ export default function AssignmentTeacher() {
                 <form onSubmit={submitNewAssignment} className='new-Assignment'>
                     <label>
                         Assignment Name:
-                        <input type='text' name='name' onChange={addName} /><br />
+                        <input type='text' name='name' onChange={addName} required/><br />
                     </label>
                     <label>
                         Assignment Due Date:
-                        <input type='Date' name='Deadline' onChange={addDeadline} /><br />
+                        <input type='Date' name='Deadline' onChange={addDeadline} required/><br />
                     </label>
                     <button type="submit" className="btn">
                         Add
@@ -104,13 +108,16 @@ export default function AssignmentTeacher() {
             <div>
                 {
                     assignments?.map((assignment: Assignment, index: number) => (
-                        <div key={index} className="assignment-block">
-                            <h2>Assignment: {assignment.assignmentName}</h2>
-                            <p>Due Date: {assignment.deadline}</p>
-                            <button onClick={() => {
-                                const id = assignment.assignmentsId
-                                deleteAssignment(id);
-                            }}>Delete Assignment</button>
+                        <div key={index} className="assignment-card">
+                            <div className="assignment">
+                                <h3>Assignment Name: {assignment.assignmentName}</h3>
+                                <p>Dedline: {assignment.deadline}</p> 
+                            </div>
+                            
+                            
+                            <button className="delete-button" onClick={() => {
+                                deleteAssignment(assignment.assignmentsId);
+                            }}>Delete</button>
                         </div>
                     ))
                 }

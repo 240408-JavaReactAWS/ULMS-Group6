@@ -1,0 +1,30 @@
+.Course {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between;
+  padding: 5%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 20px;
+  width: auto;
+  background: #c3f1c6;
+}
+  
+.Course h1, .Course h2 {
+  margin: 0;
+}
+  
+.Course button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #008000; /* This is a basic green color */
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+  
+.Course button:hover {
+  background-color: #006400; /* This is a darker green color */
+}

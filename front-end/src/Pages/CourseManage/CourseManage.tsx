@@ -70,7 +70,7 @@ function CourseManage() {
         </form>
       )}
       <button className="toggle-student-form-button" onClick={() => setShowAddStudentForm(!showAddStudentForm)}>
-        {showAddStudentForm ? 'Hide Add Student Form' : 'Show Add Student Form'}
+        {showAddStudentForm ? 'Hide Add Student Form' : 'Add Student'}
       </button>
       {showAddStudentForm && (
         <form className="assign-student-form" onSubmit={assignStudent}>
@@ -97,7 +97,7 @@ function CourseManage() {
                 <td>{student.firstName}</td>
                 <td>{student.lastName}</td>
                 <td>{student.username}</td>
-                <td><button onClick={() => deleteStudent(student.userId)}>Delete</button></td>
+                <td><button className="delete-button" onClick={() => deleteStudent(student.userId)}>Delete</button></td>
               </tr>
             ))}
           </tbody>
